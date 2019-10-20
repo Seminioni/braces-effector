@@ -1,0 +1,115 @@
+<script lang="ts">
+import Vue from "vue";
+
+import { $isMobile } from "@/core/session";
+import { Search } from "@/modules/search";
+import { $productsInCart } from "@/modules/cart";
+
+import { BrUserControl, BrBadge } from "@/shared";
+
+import Logo from "@/ui/Logo.vue";
+
+export default Vue.extend({
+  name: "MainHeader",
+
+  effector() {
+    return {
+      $isMobile,
+      $productsInCart,
+    };
+  },
+
+  components: {
+    Search,
+    Logo,
+    BrUserControl,
+    BrBadge,
+  },
+});
+</script>
+
+<template>
+  <header class="main-header">
+    <div class="container">
+      <div class="row align-center">
+        <div
+          v-if="!$isMobile"
+          class="col main-header__logo"
+        >
+          <logo />
+        </div>
+
+        <div
+          class="col"
+          :class="{ 'main-header__search': !$isMobile }"
+        >
+          <search />
+        </div>
+
+        <div
+          v-if="!$isMobile"
+          class="col main-header__controls justify-end align-center"
+        >
+          <br-badge :count="Object.keys($productsInCart).length">
+            <br-user-control
+              :to="{ name: 'CartPage' }"
+              icon="cart"
+            >
+              Кошик
+            </br-user-control>
+          </br-badge>
+
+          <br-user-control
+            icon="menu"
+            @click="$emit('toggle')"
+          >
+            Меню
+          </br-user-control>
+        </div>
+      </div>
+    </div>
+  </header>
+</template>
+
+<style lang="scss" scoped>
+.main-header {
+  background: #fff;
+  padding: 16px 0;
+  border-bottom: 1px solid $--divider;
+
+  @include medium {
+    padding: 9px 0;
+  }
+}
+
+.main-header__logo {
+  display: none;
+
+  @include medium {
+    display: block;
+    @include col(2);
+  }
+}
+
+.main-header__controls {
+  display: none;
+
+  @include medium {
+    display: block;
+    @include col(3);
+  }
+}
+
+.main-header__search {
+  @include col(9);
+
+  @include medium {
+    @include col(7);
+  }
+}
+
+.main-header__controls {
+  display: flex;
+  @include col(3);
+}
+</style>

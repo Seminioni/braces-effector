@@ -1,0 +1,50 @@
+h1 {
+  @include headline-1;
+}
+
+h2 {
+  @include headline-2;
+}
+
+h3 {
+  @include headline-3;
+}
+
+.body-text-16 {
+  font-size: 16px;
+  line-height: 1.18;
+}
+
+.body-text-18 {
+  font-size: 18px;
+  line-height: 1.22;
+}
+
+.body-text-14 {
+  font-size: 14px;
+  line-height: 1.71;
+}
+
+.body-text-neutral {
+  font-size: 12px;
+  line-height: 1.25;
+  color: $--secondary-text;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: $--primary-text;
+  display: inline-block;
+
+  &:focus {
+    @include focus;
+  }
+}

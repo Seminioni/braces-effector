@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="16px" viewBox="0 0 21 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-1266.000000, -36.000000)" fill="#212121">
+            <g transform="translate(1259.000000, 28.000000)">
+                <g>
+                    <g transform="translate(7.000000, 8.000000)">
+                        <rect id="Rectangle" fill-rule="evenodd" x="10" y="0" width="1.5" height="7"></rect>
+                        <path d="M0,6 L21,6 L17,18 L4,18 L0,6 Z M5.08113883,16.5 L15.9188612,16.5 L18.9188612,7.5 L2.08113883,7.5 L5.08113883,16.5 Z" id="Rectangle" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,89 @@
+@mixin headline-1 {
+  font-size: 36px;
+  line-height: 1.44;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: $--primary-text;
+}
+
+@mixin headline-2 {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  color: $--primary-text;
+}
+
+@mixin headline-3 {
+  font-size: 14px;
+  line-height: 1.42;
+  letter-spacing: 0.3px;
+}
+
+@mixin visually-hidden {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+@mixin focus {
+  outline: none;
+  box-shadow: 0 0 0 3.5px $--focus;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder           { @content; }
+  &::-moz-placeholder          { @content; }
+  &:-ms-input-placeholder      { @content; }
+}
+
+
+/*
+  **
+  Grid system
+  **
+*/
+
+@mixin row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: -0.5 * $--gutter;
+  margin-right: -0.5 * $--gutter;
+}
+
+@mixin col($columnwidth: 1, $columns: $--columncount) {
+  width: calc(100% / #{$columns} * #{$columnwidth});
+}
+
+/*
+  **
+  Responsive
+  **
+*/
+
+@mixin small {
+  @media screen and (min-width: $--small) {
+    @content;
+  }
+}
+
+@mixin medium {
+  @media screen and (min-width: $--medium) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media screen and (min-width: $--large) {
+    @content;
+  }
+}
+
+@mixin extra {
+  @media screen and (min-width: $--extra) {
+    @content;
+  }
+}
