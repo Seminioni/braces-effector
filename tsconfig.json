@@ -10,7 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "noEmit": true,
     "types": [
       "webpack-env"
     ],
