@@ -1,4 +1,9 @@
 
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const BrotliPlugin = require("brotli-webpack-plugin");
+
+const productionGzipExtensions = ["js", "css"];
+
 module.exports = {
   chainWebpack(config) {
     const EXCLUDED_RE = /\.pure\.svg$/;

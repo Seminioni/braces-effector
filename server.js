@@ -5,8 +5,9 @@ const path = require("path");
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use("/", expressStaticGzip(path.join(`${__dirname}/dist/`), {
+app.use(/.*/, expressStaticGzip(path.join(`${__dirname}/dist/`), {
   enableBrotli: true,
+  orderPreference: ["br"],
 }));
 
 app.get(/.*/, (_, res) => {
