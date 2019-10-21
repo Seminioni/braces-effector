@@ -10,8 +10,8 @@ import { fxFetchCartContext } from "@/modules/cart/events";
 import { BrLoader } from "@/shared";
 import BottomBar from "@/ui/BottomBar.vue";
 import Navigation from "@/ui/Navigation.vue";
-import MainHeader from "@/ui/MainHeader.vue";
-import MainFooter from "@/ui/MainFooter.vue";
+
+const simpleLayoutPages = ["CheckoutPage"];
 
 export default Vue.extend({
   name: "App",
@@ -26,14 +26,26 @@ export default Vue.extend({
   components: {
     BottomBar,
     Navigation,
-    MainHeader,
-    MainFooter,
+    MainHeader: () => import("@/ui/MainHeader.vue"),
+    SimpleHeader: () => import("@/ui/SimpleHeader.vue"),
+    MainFooter: () => import("@/ui/MainFooter.vue"),
     BrLoader,
   },
 
   data: () => ({
     isOpened: false,
   }),
+
+  computed: {
+    pages() {
+      return Object.freeze(simpleLayoutPages);
+    },
+    headerType(): string {
+      const { name } = this.$route;
+
+      return this.pages.includes(name!) ? "SimpleHeader" : "MainHeader";
+    },
+  },
 
   created() {
     fxFetchCartContext();
@@ -55,13 +67,18 @@ export default Vue.extend({
     id="app"
     :class="{ 'is-mobile': $isMobile }"
   >
-    <main-header @toggle="handleToggle" />
+    <header class="header">
+      <component
+        :is="headerType"
+        @toggle="handleToggle"
+      />
+    </header>
 
     <main>
       <router-view />
     </main>
 
-    <main-footer />
+    <main-footer v-if="headerType === 'MainHeader'" />
 
     <bottom-bar
       v-if="$isMobile"
@@ -99,6 +116,19 @@ export default Vue.extend({
 </template>
 
 <style lang="scss" scoped>
+.header {
+  background: #fff;
+  border-bottom: 1px solid $--divider;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: $--header-height;
+  display: flex;
+  align-items: center;
+  z-index: 99;
+}
+
 .categories__item {
   margin-bottom: 20px;
 }
@@ -140,6 +170,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: $--header-height;
 
   &.is-mobile {
     padding-bottom: $--bottom-bar-height;
@@ -213,14 +244,32 @@ button {
   justify-content: flex-end;
 }
 
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
 .slide-top-enter-active {
   transition: all .3s ease;
 }
+
 .slide-top-leave-active {
   transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
+
 .slide-top-enter, .slide-top-leave-to {
   transform: translateY(10px);
   opacity: 0;
+}
+
+.fullwidth {
+  width: 100%;
+  margin-bottom: 26px;
+  @include small {
+    width: auto;
+  }
 }
 </style>

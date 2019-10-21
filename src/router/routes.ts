@@ -10,7 +10,6 @@ import {
   $productsAsDictionary,
   fxFetchProductById,
 } from "@/modules/products";
-import { fxFetchCartContext } from "@/modules/cart/events";
 
 const children: R[] = [
   {
@@ -29,6 +28,8 @@ const children: R[] = [
     meta: {
       async beforeResolve(to, from, next) {
         const { id } = to.params;
+
+        console.log($productsAsDictionary.getState());
 
         if (!$productsAsDictionary.getState()[id]) {
           await fxFetchProductById(id);
@@ -73,6 +74,20 @@ const children: R[] = [
     path: "/cart",
     name: "CartPage",
     component: lazy(import("@/views/CartPage.vue")),
+  },
+  {
+    path: "/checkout",
+    name: "CheckoutPage",
+    component: lazy(import("@/views/CheckoutPage.vue")),
+    meta: {
+      beforeResolve(to, from, next) {
+        if (from.name !== "CartPage") {
+          return next({ name: "CartPage" });
+        }
+
+        return next();
+      },
+    },
   },
 ];
 

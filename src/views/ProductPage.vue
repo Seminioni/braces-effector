@@ -177,25 +177,27 @@ export default Vue.extend({
             />
           </div>
 
-          <br-button
-            v-if="!$productsContextInCart[id]"
-            class="fullwidth"
-            type="primary"
-            :is-loading="$isLoading"
-            @click="addedItemToCart({ ...product, quantity })"
-          >
-            Додати у кошик
-          </br-button>
-          <br-button
-            v-else
-            class="fullwidth"
-            @click="updatedQuantity({
-              productCtx: $productsContextInCart[id],
-              quantity: 0
-            })"
-          >
-            Видалити
-          </br-button>
+          <div class="product-page__controls">
+            <br-button
+              v-if="!$productsContextInCart[id]"
+              class="fullwidth"
+              type="primary"
+              :is-loading="$isLoading"
+              @click="addedItemToCart({ ...product, quantity })"
+            >
+              Додати у кошик
+            </br-button>
+            <br-button
+              v-else
+              class="fullwidth"
+              @click="updatedQuantity({
+                productCtx: $productsContextInCart[id],
+                quantity: 0
+              })"
+            >
+              Видалити
+            </br-button>
+          </div>
         </div>
       </div>
 
@@ -371,11 +373,11 @@ export default Vue.extend({
   font-weight: normal;
 }
 
-.fullwidth {
-  width: 100%;
-  margin-bottom: 26px;
-  @include small {
-    width: auto;
+.product-page__controls {
+  margin: 20px 0 45px 0;
+
+  @include medium {
+    margin-top: 36px;
   }
 }
 

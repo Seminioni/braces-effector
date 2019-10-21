@@ -29,59 +29,47 @@ export default Vue.extend({
 </script>
 
 <template>
-  <header class="main-header">
-    <div class="container">
-      <div class="row align-center">
-        <div
-          v-if="!$isMobile"
-          class="col main-header__logo"
-        >
-          <logo />
-        </div>
+  <div class="container">
+    <div class="row align-center">
+      <div
+        v-if="!$isMobile"
+        class="col main-header__logo"
+      >
+        <logo />
+      </div>
 
-        <div
-          class="col"
-          :class="{ 'main-header__search': !$isMobile }"
-        >
-          <search />
-        </div>
+      <div
+        class="col"
+        :class="{ 'main-header__search': !$isMobile }"
+      >
+        <search />
+      </div>
 
-        <div
-          v-if="!$isMobile"
-          class="col main-header__controls justify-end align-center"
-        >
-          <br-badge :count="Object.keys($productsInCart).length">
-            <br-user-control
-              :to="{ name: 'CartPage' }"
-              icon="cart"
-            >
-              Кошик
-            </br-user-control>
-          </br-badge>
-
+      <div
+        v-if="!$isMobile"
+        class="col main-header__controls justify-end align-center"
+      >
+        <br-badge :count="Object.keys($productsInCart).length">
           <br-user-control
-            icon="menu"
-            @click="$emit('toggle')"
+            :to="{ name: 'CartPage' }"
+            icon="cart"
           >
-            Меню
+            Кошик
           </br-user-control>
-        </div>
+        </br-badge>
+
+        <br-user-control
+          icon="menu"
+          @click="$emit('toggle')"
+        >
+          Меню
+        </br-user-control>
       </div>
     </div>
-  </header>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.main-header {
-  background: #fff;
-  padding: 16px 0;
-  border-bottom: 1px solid $--divider;
-
-  @include medium {
-    padding: 9px 0;
-  }
-}
-
 .main-header__logo {
   display: none;
 

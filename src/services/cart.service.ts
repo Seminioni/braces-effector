@@ -116,6 +116,8 @@ type ProductInCart = {
   bucketProduct: ProductMetadata;
 };
 
+type FullProductModel = Product & { quantity: number; totalAmount: number };
+
 type SaveToCartPaylod = {
   quantity: number;
   bucketId: string;
@@ -207,5 +209,6 @@ export {
   SaveQuantityPayload,
   ProductMetadata,
   ProductInCart,
+  FullProductModel,
   cartService,
 };

@@ -1,4 +1,6 @@
-import { createStore, forward, sample } from "effector";
+import {
+  combine, createStore, forward, guard, sample,
+} from "effector";
 import debounce from "lodash.debounce";
 
 import {
@@ -7,7 +9,7 @@ import {
   fxFetchCartContext,
   fxFetchProductsFromCart, fxUpdateQuantity, updatedQuantity,
 } from "@/modules/cart/events";
-import { CartContext, ProductMetadata } from "@/services/cart.service";
+import { CartContext, FullProductModel, ProductMetadata } from "@/services/cart.service";
 import { Product } from "@/services/products.service";
 import reduceToDict from "@/lib/reduce";
 import { Dictionary } from "@/lib/types";
@@ -62,6 +64,33 @@ const $productsContextInCart = createStore<Dictionary<ProductMetadata>>({})
     return { ...state, [productCtx.productId]: { ...state[productCtx.productId], quantity } };
   });
 
+const $totalAmount = combine(
+  $productsContextInCart,
+  $productsInCart,
+  (ctx, products) => Object.values(ctx)
+    .reduce((acc, { quantity, productId }) => (acc + quantity * products[productId].price), 0),
+);
+
+const $fullProductsModel = combine(
+  $productsContextInCart,
+  $productsInCart,
+  (ctx, products) => Object.values(products)
+    .reduce((acc, current) => ({
+      ...acc,
+      [current.id]: {
+        ...current,
+        quantity: !ctx[current.id] ? 1 : ctx[current.id].quantity,
+        totalAmount: !ctx[current.id] ? 0 : ctx[current.id].quantity * current.price,
+        categoryProductUrl: `/products/${current.categoryProductUrl.slice(12)}`,
+      },
+    }), {} as FullProductModel),
+);
+
+$fullProductsModel.watch(w => console.log(w));
+
+const $isLoading = createStore(true)
+  .on(fxFetchProductsFromCart.pending.updates, (_, isLoading) => isLoading);
+
 forward({
   from: fxFetchCartContext.done
     .map(({ result }) => result)
@@ -104,4 +133,7 @@ export {
   $cartContext,
   $productsInCart,
   $productsContextInCart,
+  $fullProductsModel,
+  $totalAmount,
+  $isLoading,
 };
