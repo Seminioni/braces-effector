@@ -34,8 +34,10 @@ export default Vue.extend({
       <div class="col container__inner">
         <template v-if="!$isMobile">
           <logo />
-
-          <br-badge :count="Object.keys($productsInCart).length">
+          <br-badge
+            v-if="$route.name !== 'CheckoutSuccessPage'"
+            :count="Object.keys($productsInCart).length"
+          >
             <br-user-control
               :to="{ name: 'CartPage' }"
               icon="cart"

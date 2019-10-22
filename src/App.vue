@@ -11,7 +11,7 @@ import { BrLoader } from "@/shared";
 import BottomBar from "@/ui/BottomBar.vue";
 import Navigation from "@/ui/Navigation.vue";
 
-const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccess"];
+const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccessPage"];
 
 export default Vue.extend({
   name: "App",
