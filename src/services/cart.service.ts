@@ -44,10 +44,8 @@ async function updateQuantity({
   };
 }
 
-async function sendOrder({ model }: { model: OrderDetailsPayload }) {
-  const { data } = await http.post<OrderDetailsResponse>("/order_details", {
-    ...model,
-  });
+async function sendOrder(model: OrderDetailsPayload) {
+  const { data } = await http.post<OrderDetailsResponse>("/order_details", model);
   return data;
 }
 
@@ -211,4 +209,5 @@ export {
   ProductInCart,
   FullProductModel,
   cartService,
+  PayType,
 };

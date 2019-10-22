@@ -1,5 +1,5 @@
 import {
-  combine, createStore, forward, guard, sample,
+  combine, createStore, forward, sample,
 } from "effector";
 import debounce from "lodash.debounce";
 
@@ -14,11 +14,15 @@ import { Product } from "@/services/products.service";
 import reduceToDict from "@/lib/reduce";
 import { Dictionary } from "@/lib/types";
 import exclude from "@/lib/exclude";
+import { createDomain } from "@/core/local-storage";
+
+const cartProducts = createDomain("cartProducts");
+const cartCtxProducts = createDomain("cartCtxProducts");
 
 const $cartContext = createStore<CartContext | null>(null)
   .on(fxFetchCartContext.done, (_, { result: ctx }) => ctx);
 
-const $productsInCart = createStore<Dictionary<Product>>({})
+const $productsInCart = cartProducts.store<Dictionary<Product>>({})
   .on(
     fxFetchProductsFromCart.done,
     (_, { result: products }) => reduceToDict(
@@ -33,7 +37,7 @@ const $productsInCart = createStore<Dictionary<Product>>({})
     (state, { productCtx, quantity }) => (quantity ? state : exclude(productCtx.productId, state)),
   );
 
-const $productsContextInCart = createStore<Dictionary<ProductMetadata>>({})
+const $productsContextInCart = cartCtxProducts.store<Dictionary<ProductMetadata>>({})
   .on(
     fxFetchProductsFromCart.done,
     (_, { result: products }) => reduceToDict(
@@ -85,8 +89,6 @@ const $fullProductsModel = combine(
       },
     }), {} as FullProductModel),
 );
-
-$fullProductsModel.watch(w => console.log(w));
 
 const $isLoading = createStore(true)
   .on(fxFetchProductsFromCart.pending.updates, (_, isLoading) => isLoading);

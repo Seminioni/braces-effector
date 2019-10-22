@@ -11,7 +11,7 @@ import { BrLoader } from "@/shared";
 import BottomBar from "@/ui/BottomBar.vue";
 import Navigation from "@/ui/Navigation.vue";
 
-const simpleLayoutPages = ["CheckoutPage"];
+const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccess"];
 
 export default Vue.extend({
   name: "App",
@@ -45,10 +45,6 @@ export default Vue.extend({
 
       return this.pages.includes(name!) ? "SimpleHeader" : "MainHeader";
     },
-  },
-
-  created() {
-    fxFetchCartContext();
   },
 
   methods: {

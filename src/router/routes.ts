@@ -10,6 +10,7 @@ import {
   $productsAsDictionary,
   fxFetchProductById,
 } from "@/modules/products";
+import { $cartContext, fxFetchCartContext } from "@/modules/cart";
 
 const children: R[] = [
   {
@@ -28,8 +29,6 @@ const children: R[] = [
     meta: {
       async beforeResolve(to, from, next) {
         const { id } = to.params;
-
-        console.log($productsAsDictionary.getState());
 
         if (!$productsAsDictionary.getState()[id]) {
           await fxFetchProductById(id);
@@ -89,6 +88,33 @@ const children: R[] = [
       },
     },
   },
+  {
+    path: "/redirect",
+    name: "PaymentRedirectPage",
+    component: lazy(import("@/views/PaymentRedirectPage.vue")),
+    meta: {
+      beforeResolve(to, from, next) {
+        if (!(to.params.data && to.params.signature)) {
+          return next({ name: "HomePage" });
+        }
+        return next();
+      },
+    },
+  },
+  {
+    path: "/checkout/success",
+    name: "CheckoutSuccessPage",
+    component: lazy(import("@/views/CheckoutPage.vue")),
+    meta: {
+      beforeResolve(to, from, next) {
+        if (from.name === "CheckoutPage" || to.query.redirectFrom) {
+          return next();
+        }
+
+        return next({ name: "HomePage" });
+      },
+    },
+  },
 ];
 
 const routes: R[] = [
@@ -100,6 +126,12 @@ const routes: R[] = [
     children,
     meta: {
       async beforeResolve(to, from, next) {
+        if (to.name !== "CheckoutSuccessPage" && to.name) {
+          if (!$cartContext.getState() || from.name === "CheckoutSuccessPage") {
+            fxFetchCartContext();
+          }
+        }
+
         if (to.name !== "ProductsPage" && to.name !== "ProductPage") {
           if (!$categories.getState().length) {
             fxFetchCategories();

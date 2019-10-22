@@ -3,7 +3,8 @@ import * as effector from "effector";
 const root = effector.createDomain("root");
 
 root.onCreateStore((store) => {
-  const snapshot = localStorage.getItem(store.shortName);
+  // @ts-ignore
+  const snapshot = localStorage.getItem(store.domainName.shortName);
   if (snapshot !== null) store.setState(JSON.parse(snapshot));
 
   let isFirstSkiped = false;

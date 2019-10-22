@@ -39,6 +39,7 @@ export default Vue.extend({
 <template>
   <component
     :is="tag"
+    type="button"
     :class="[type]"
     :disabled="isLoading || $attrs.disabled"
     v-bind="$attrs"
@@ -92,10 +93,10 @@ export default Vue.extend({
     font-size: 16px;
     font-weight: 600;
     color: #fff;
+  }
 
-    &[disabled] {
-      opacity: 0.6;
-    }
+  &[disabled] {
+    opacity: 0.6;
   }
 
   &:focus {

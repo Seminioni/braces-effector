@@ -9,3 +9,6 @@ export { default as BrCollapseItem } from "./BrCollapseItem.vue";
 export { default as BrCheckboxGroup } from "./BrCheckboxGroup.vue";
 export { default as BrCheckbox } from "./BrCheckbox.vue";
 export { default as BrInputNumber } from "./BrInputNumber.vue";
+export { default as BrInput } from "./BrInput.vue";
+export { default as BrRadio } from "./BrRadio.vue";
+export { default as BrRadioGroup } from "./BrRadioGroup.vue";
