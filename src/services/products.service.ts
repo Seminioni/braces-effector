@@ -21,7 +21,7 @@ async function fetchProducts(query?: string) {
 }
 
 async function fetchRecommendedProducts(categoryId?: void | string) {
-  const { data } = await http.get<Product[]>(`/category/${categoryId}/random`);
+  const { data } = await http.post<Product[]>(`/category/${categoryId}/random`, []);
   return data;
 }
 

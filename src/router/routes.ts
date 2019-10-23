@@ -115,6 +115,23 @@ const children: R[] = [
       },
     },
   },
+  {
+    path: "/help",
+    name: "HelpPage",
+    component: lazy(import("@/views/HelpPage.vue")),
+    children: [
+      {
+        path: "delivery",
+        name: "DeliveryPage",
+        component: lazy(import("@/views/DeliveryPage.vue")),
+      },
+      {
+        path: "payment",
+        name: "PaymentPage",
+        component: lazy(import("@/views/PaymentPage.vue")),
+      },
+    ],
+  },
 ];
 
 const routes: R[] = [
