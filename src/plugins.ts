@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueMeta from "vue-meta";
 import VueScrollTo from "vue-scrollto";
 import { VueEffector } from "effector-vue";
+// @ts-ignore
+import { VLazyImagePlugin } from "v-lazy-image";
 
 import { extend, ValidationProvider, ValidationObserver } from "vee-validate";
 import { email, numeric, required } from "vee-validate/dist/rules";
@@ -16,6 +18,7 @@ export interface NProgress extends Vue {
 Vue.use(VueScrollTo);
 Vue.use(VueEffector);
 Vue.use(VueMeta);
+Vue.use(VLazyImagePlugin);
 
 Vue.component("validation-provider", ValidationProvider);
 Vue.component("validation-observer", ValidationObserver);

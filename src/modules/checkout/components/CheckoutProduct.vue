@@ -22,10 +22,10 @@ export default Vue.extend({
   <li class="checkout-product__item">
     <figure class="checkout-pruduct__image">
       <div class="checkout-product__image-container">
-        <img
+        <v-lazy-image
           :src="props.product.thumbnail"
           :alt="props.product.title"
-        >
+        />
       </div>
 
       <figcaption class="checkout-product__description">

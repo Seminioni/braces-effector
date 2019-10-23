@@ -60,10 +60,10 @@ export default Vue.extend({
     <td class="cart-page__left">
       <figure class="cart-page__image-container">
         <div class="cart-page__image">
-          <img
+          <v-lazy-image
             :src="product.thumbnail"
             :alt="product.title"
-          >
+          />
         </div>
 
         <figcaption class="cart-page__description">

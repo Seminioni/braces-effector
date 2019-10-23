@@ -52,10 +52,10 @@ export default Vue.extend({
       class="product-card__link"
     >
       <div class="product-card__img">
-        <img
+        <v-lazy-image
           :src="product.thumbnail"
           :alt="product.title"
-        >
+        />
       </div>
 
       <figcaption class="product-card__descr">

@@ -43,8 +43,12 @@ export default Vue.extend({
                 params: { category: category.path },
               }"
               class="body-text-16 categories__link"
-              :style="`background-image: url(${category.largeIcon})`"
             >
+              <v-lazy-image
+                :src="category.largeIcon"
+                :alt="category.title"
+                class="categories__image"
+              />
               <span>
                 {{ category.title }}
               </span>
@@ -102,10 +106,16 @@ export default Vue.extend({
 .categories__link {
   display: block;
   width: 100px;
-
-  padding-top: 115px;
-  background: top center no-repeat;
-  background-size: 100px;
   text-align: center;
+  padding-top: 115px;
+  position: relative;
+}
+
+.categories__image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
 }
 </style>
