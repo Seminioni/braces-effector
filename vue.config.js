@@ -10,6 +10,8 @@ const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
 const productionGzipExtensions = ["js", "css"];
 
 module.exports = {
+  publicPath: "/",
+  assetsDir: "public",
   chainWebpack(config) {
     const EXCLUDED_RE = /\.pure\.svg$/;
 
@@ -57,51 +59,40 @@ module.exports = {
       }),
       new PrerenderSPAPlugin({
         staticDir: path.join(__dirname, "dist"),
-        routes: ["/", "/about", "/contact"],
+
+        indexPath: path.join(__dirname, "dist", "index.html"),
+
+        routes: ["/", "/help", "/help/delivery", "/help/payment"],
+
+        postProcess(renderedRoute) {
+          renderedRoute.route = renderedRoute.originalRoute;
+          renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
+
+          if (renderedRoute.route.endsWith(".html")) {
+            renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
+          }
+
+          return renderedRoute;
+        },
+
+        minify: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          decodeEntities: true,
+          keepClosingSlash: true,
+          sortAttributes: true,
+        },
+
+        server: {
+          port: 8001,
+        },
 
         renderer: new Renderer({
-          inject: {
-            foo: "bar",
-          },
+          maxConcurrentRoutes: 4,
           headless: true,
           renderAfterDocumentEvent: "render-event",
         }),
       }),
-      // new PrerenderSPAPlugin({
-      //   staticDir: path.join(__dirname, "dist"),
-
-      //   indexPath: path.join(__dirname, "dist", "index.html"),
-
-      //   routes: ["/", "/help", "/help/delivery", "/help/payment"],
-
-      //   postProcess(renderedRoute) {
-      //     renderedRoute.route = renderedRoute.originalRoute;
-      //     renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
-
-      //     if (renderedRoute.route.endsWith(".html")) {
-      //       renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
-      //     }
-
-      //     return renderedRoute;
-      //   },
-
-      //   minify: {
-      //     collapseBooleanAttributes: true,
-      //     collapseWhitespace: true,
-      //     decodeEntities: true,
-      //     keepClosingSlash: true,
-      //     sortAttributes: true,
-      //   },
-
-      //   server: {
-      //     port: 8000,
-      //   },
-
-      //   renderer: new Renderer({
-      //     maxConcurrentRoutes: 4,
-      //     headless: true,
-      //   }),
-      // }),
 
     ],
   },

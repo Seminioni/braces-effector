@@ -16,5 +16,8 @@ deviceChecked(window.mobilecheck());
 
 new Vue({
   router,
+  mounted() {
+    document.dispatchEvent(new Event("render-event"));
+  },
   render: h => h(App),
 }).$mount("#app");

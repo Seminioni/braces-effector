@@ -1,6 +1,7 @@
 const express = require("express");
 const expressStaticGzip = require("express-static-gzip");
 const path = require("path");
+const serveStatic = require("serve-static");
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -10,9 +11,7 @@ app.use(/.*/, expressStaticGzip(path.join(`${__dirname}/dist/`), {
   orderPreference: ["br"],
 }));
 
-app.get(/.*/, (_, res) => {
-  res.sendFile(`${__dirname}/dist/index.html`);
-});
+app.use(serveStatic(path.join(__dirname, "dist")));
 
 app.listen(port, () => {
   // eslint-disable-next-line
