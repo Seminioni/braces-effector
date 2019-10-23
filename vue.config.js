@@ -17,6 +17,12 @@ module.exports = {
 
     config.module.rule("svg").test(filename => EXCLUDED_RE.test(filename));
 
+    config.plugin("preload").tap((options) => {
+      options[0].fileBlackList = options[0].fileBlackList || [];
+      options[0].fileBlackList.push(/\.js$/);
+      return options;
+    });
+
     config.module
       .rule("svg-component")
       .test(filename => filename.endsWith(".svg") && !EXCLUDED_RE.test(filename))
@@ -59,9 +65,7 @@ module.exports = {
       }),
       new PrerenderSPAPlugin({
         staticDir: path.join(__dirname, "dist"),
-
         indexPath: path.join(__dirname, "dist", "index.html"),
-
         routes: ["/", "/help", "/help/delivery", "/help/payment"],
 
         postProcess(renderedRoute) {
