@@ -1,6 +1,11 @@
 
+const path = require("path");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const BrotliPlugin = require("brotli-webpack-plugin");
+const PrerenderSPAPlugin = require("prerender-spa-plugin");
+
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
+
 
 const productionGzipExtensions = ["js", "css"];
 
@@ -50,6 +55,54 @@ module.exports = {
         threshold: 10240,
         minRatio: 0.8,
       }),
+      new PrerenderSPAPlugin({
+        staticDir: path.join(__dirname, "dist"),
+        routes: ["/", "/about", "/contact"],
+
+        renderer: new Renderer({
+          inject: {
+            foo: "bar",
+          },
+          headless: true,
+          renderAfterDocumentEvent: "render-event",
+        }),
+      }),
+      // new PrerenderSPAPlugin({
+      //   staticDir: path.join(__dirname, "dist"),
+
+      //   indexPath: path.join(__dirname, "dist", "index.html"),
+
+      //   routes: ["/", "/help", "/help/delivery", "/help/payment"],
+
+      //   postProcess(renderedRoute) {
+      //     renderedRoute.route = renderedRoute.originalRoute;
+      //     renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
+
+      //     if (renderedRoute.route.endsWith(".html")) {
+      //       renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
+      //     }
+
+      //     return renderedRoute;
+      //   },
+
+      //   minify: {
+      //     collapseBooleanAttributes: true,
+      //     collapseWhitespace: true,
+      //     decodeEntities: true,
+      //     keepClosingSlash: true,
+      //     sortAttributes: true,
+      //   },
+
+      //   server: {
+      //     port: 8000,
+      //   },
+
+      //   renderer: new Renderer({
+      //     maxConcurrentRoutes: 4,
+      //     headless: true,
+      //   }),
+      // }),
+
     ],
   },
 };
