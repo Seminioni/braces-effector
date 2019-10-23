@@ -9,7 +9,7 @@ Vue.use(Router);
 const router = new Router({
   routes,
   mode: "history",
-  base: process.env.BASE_URL,
+  base: process.env.DEPLOY_ENV !== "GH_PAGES" ? process.env.BASE_URL : "/braces-effector/",
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
