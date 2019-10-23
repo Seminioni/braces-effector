@@ -7,6 +7,7 @@ import {
   $fullProductsModel,
   $isLoading,
 } from "@/modules/cart";
+import { RecommendedProducts } from "@/modules/products";
 
 import currency from "@/lib/currency";
 
@@ -32,6 +33,8 @@ export default Vue.extend({
 
   components: {
     CartItem,
+    RecommendedProducts,
+
     BrButton,
     BrLoader,
   },
@@ -134,6 +137,8 @@ export default Vue.extend({
         </br-loader>
       </div>
     </div>
+
+    <recommended-products />
   </div>
 </template>
 

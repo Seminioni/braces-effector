@@ -7,11 +7,13 @@ import "hooper/dist/hooper.css";
 import {
   BrInputNumber, BrButton, BrCollapse, BrCollapseItem,
 } from "@/shared";
+import Breadcrumbs from "@/ui/Breadcrumbs.vue";
 
 import currency from "@/lib/currency";
-import Breadcrumbs from "@/ui/Breadcrumbs.vue";
+
+
 import { Category } from "@/services/categories.service";
-import { $productsAsDictionary } from "@/modules/products";
+import { RecommendedProducts, $productsAsDictionary } from "@/modules/products";
 import {
   $productsContextInCart,
   updatedQuantity,
@@ -43,6 +45,7 @@ export default Vue.extend({
     Hooper,
     Slide,
     Breadcrumbs,
+    RecommendedProducts,
 
     BrInputNumber,
     BrButton,
@@ -228,6 +231,8 @@ export default Vue.extend({
         </div>
       </div>
     </section>
+
+    <recommended-products :category-id="currentCategory.id" />
   </div>
 </template>
 

@@ -23,6 +23,10 @@ const fxFetchProductsByFilters = createEffect<Options, { totalCount: number; pro
   },
 );
 
+const fxFetchRecommendedProducts = createEffect<string | void, Product[]>("fxFetchRecommendedProducts", {
+  handler: productsService.fetchRecommendedProducts,
+});
+
 const updatedQuery = createEvent<Options>("updatedFilter");
 
 export {
@@ -30,4 +34,5 @@ export {
   fxFetchFiltersByCategory,
   fxFetchProductsByFilters,
   fxFetchProductById,
+  fxFetchRecommendedProducts,
 };

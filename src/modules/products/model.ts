@@ -4,6 +4,7 @@ import {
   fxFetchFiltersByCategory,
   fxFetchProductById,
   fxFetchProductsByFilters,
+  fxFetchRecommendedProducts,
   updatedQuery,
 } from "./events";
 import reduceToDict from "@/lib/reduce";
@@ -16,6 +17,8 @@ type FilterView = {
 };
 
 export const LIMIT = 30;
+
+const $recommendedProducts = restore(fxFetchRecommendedProducts, []);
 
 const $filters = createStore<Dictionary<FilterView>>({})
   .on(fxFetchFiltersByCategory.done, (state, { result: filters }) => ({
@@ -88,6 +91,7 @@ export {
   $filters,
   $filterItems,
   $products,
+  $recommendedProducts,
   $productsAsDictionary,
   $isProductsPending,
   $isFiltersPending,

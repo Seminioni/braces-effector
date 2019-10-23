@@ -32,6 +32,10 @@ export default Vue.extend({
       type: Object as PropType<Product>,
       required: true,
     },
+    hideButton: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
@@ -66,24 +70,26 @@ export default Vue.extend({
         {{ product.price | currency }}
       </div>
 
-      <br-button
-        v-if="!$productsContextInCart[product.id]"
-        type="transparent"
-        class="product-card__cart-btn"
-        :is-loading="$isLoading"
-        @click="addedItemToCart(product)"
-      >
-        У кошик
-      </br-button>
-      <br-input-number
-        v-else
-        class="product-card__cart-quantity"
-        :value="$productsContextInCart[product.id].quantity"
-        @input="updatedQuantity({
-          productCtx: $productsContextInCart[product.id],
-          quantity: $event,
-        })"
-      />
+      <template v-if="!hideButton">
+        <br-button
+          v-if="!$productsContextInCart[product.id]"
+          type="transparent"
+          class="product-card__cart-btn"
+          :is-loading="$isLoading"
+          @click="addedItemToCart(product)"
+        >
+          У кошик
+        </br-button>
+        <br-input-number
+          v-else
+          class="product-card__cart-quantity"
+          :value="$productsContextInCart[product.id].quantity"
+          @input="updatedQuantity({
+            productCtx: $productsContextInCart[product.id],
+            quantity: $event,
+          })"
+        />
+      </template>
     </div>
   </figure>
 </template>

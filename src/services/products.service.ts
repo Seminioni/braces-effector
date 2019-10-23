@@ -20,6 +20,11 @@ async function fetchProducts(query?: string) {
   return data;
 }
 
+async function fetchRecommendedProducts(categoryId?: void | string) {
+  const { data } = await http.get<Product[]>(`/category/${categoryId}/random`);
+  return data;
+}
+
 async function fetchProduct(id: string) {
   const { data } = await http.get<Product>(`/product/${id}`);
   return data;
@@ -96,6 +101,7 @@ const productsService = {
   fetchProduct,
   fetchProductsByFilters,
   fetchFiltersByCategory,
+  fetchRecommendedProducts,
 };
 
 export {
