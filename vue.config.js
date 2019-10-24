@@ -95,6 +95,7 @@ module.exports = {
           maxConcurrentRoutes: 4,
           headless: true,
           renderAfterDocumentEvent: "render-event",
+          puppeteerArgs: ["--no-sandbox"],
         }),
       }),
 
