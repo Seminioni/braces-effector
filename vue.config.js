@@ -93,7 +93,7 @@ module.exports = {
 
         renderer: new Renderer({
           maxConcurrentRoutes: 4,
-          headless: true,
+          headless: false,
           renderAfterDocumentEvent: "render-event",
           args: ["--no-sandbox"],
         }),
