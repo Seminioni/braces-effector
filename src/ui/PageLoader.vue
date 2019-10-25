@@ -1,9 +1,9 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
 
 import { BrLoader } from "@/shared";
 
-export default Vue.extend({
+export default createComponent({
   name: "PageLoader",
 
   components: {

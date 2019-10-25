@@ -1,9 +1,10 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 // @ts-ignore
 import { Hooper, Slide } from "hooper";
 import "hooper/dist/hooper.css";
 
+import createComponent from "@/core/component";
 import {
   BrInputNumber, BrButton, BrCollapse, BrCollapseItem,
 } from "@/shared";
@@ -22,7 +23,13 @@ import {
 } from "@/modules/cart";
 import { Product } from "@/services/products.service";
 
-export default Vue.extend({
+const store = {
+  $productsContextInCart,
+  $products: $productsAsDictionary,
+  $isLoading: fxAddItemToCart.pending,
+};
+
+export default createComponent({
   name: "ProductPage",
 
   filters: { currency },
@@ -30,14 +37,6 @@ export default Vue.extend({
   metaInfo() {
     return {
       title: `Braces — ${this.$products[this.id].title}`,
-    };
-  },
-
-  effector() {
-    return {
-      $productsContextInCart,
-      $products: $productsAsDictionary,
-      $isLoading: fxAddItemToCart.pending,
     };
   },
 
@@ -65,8 +64,6 @@ export default Vue.extend({
   },
 
   data: () => ({
-    $products: {} as State<typeof $productsAsDictionary>,
-    $productsContextInCart: {} as State<typeof $productsContextInCart>,
     quantity: 1,
     openTab: ["characters"],
   }),
@@ -103,7 +100,7 @@ export default Vue.extend({
       });
     },
   },
-});
+}, store);
 </script>
 
 <template>

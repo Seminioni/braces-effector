@@ -1,11 +1,11 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
+import { BrButton } from "@/shared";
 
 import {
   $currentStep, completedStep, changedStep, $completedSteps, $infoModel,
   $deliveryModel, $payModel,
 } from "../model";
-import { BrButton } from "@/shared";
 
 import CheckoutInfo from "./CheckoutInfo.vue";
 import CheckoutDelivery from "./CheckoutDelivery.vue";
@@ -14,18 +14,16 @@ import CheckoutPlaceholder from "./CheckoutPlaceholder.vue";
 
 type Step = keyof State<typeof $completedSteps>;
 
-export default Vue.extend({
-  name: "CheckoutForm",
+const store = {
+  $infoModel,
+  $payModel,
+  $deliveryModel,
+  $currentStep,
+  $completedSteps,
+};
 
-  effector() {
-    return {
-      $infoModel,
-      $payModel,
-      $deliveryModel,
-      $currentStep,
-      $completedSteps,
-    };
-  },
+export default createComponent({
+  name: "CheckoutForm",
 
   components: {
     BrButton,
@@ -52,7 +50,7 @@ export default Vue.extend({
       this.changedStep(nextStep);
     },
   },
-});
+}, store);
 </script>
 
 <template>

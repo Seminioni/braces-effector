@@ -1,10 +1,11 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
+import createComponent from "@/core/component";
 import { BrLoader } from "@/shared";
 import { Product } from "@/services/products.service";
 
-export default Vue.extend({
+export default createComponent({
   name: "SearchTextfield",
 
   components: {

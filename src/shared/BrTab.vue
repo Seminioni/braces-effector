@@ -1,9 +1,11 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
+
+import createComponent from "@/core/component";
 
 import BrButton from "./BrButton.vue";
 
-export default Vue.extend({
+export default createComponent({
   name: "BrTab",
 
   components: {

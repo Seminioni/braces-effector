@@ -1,5 +1,5 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
 
 import { BrTab } from "@/shared";
 
@@ -8,7 +8,7 @@ const pages = [
   { label: "Оплата", to: "/help/payment" },
 ];
 
-export default Vue.extend({
+export default createComponent({
   name: "HelpPage",
 
   metaInfo() {

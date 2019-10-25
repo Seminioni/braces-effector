@@ -1,17 +1,15 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { BrInput, BrButton } from "@/shared";
+
 import { updatedInfo, $infoModel } from "../model";
 
-export default Vue.extend({
-  name: "CheckoutInfo",
+const store = {
+  $infoModel,
+};
 
-  effector() {
-    return {
-      $infoModel,
-    };
-  },
+export default createComponent({
+  name: "CheckoutInfo",
 
   components: {
     BrInput,
@@ -21,7 +19,7 @@ export default Vue.extend({
   methods: {
     updatedInfo,
   },
-});
+}, store);
 </script>
 
 <template>

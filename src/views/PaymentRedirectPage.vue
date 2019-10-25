@@ -1,9 +1,9 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { Liqpay } from "@/modules/checkout";
 
-export default Vue.extend({
+
+export default createComponent({
   name: "PaymentRedirect",
 
   components: {

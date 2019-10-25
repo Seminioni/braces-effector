@@ -1,7 +1,7 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
 
-export default Vue.extend({
+export default createComponent({
   name: "BrTabItem",
 
   props: {

@@ -1,13 +1,14 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
+import createComponent from "@/core/component";
 import { Category } from "@/services/categories.service";
-import { LIMIT } from "../model";
-
 import arrowIcon from "@/assets/vector/arrow_down.svg";
 import { BrButton } from "@/shared";
 
-export default Vue.extend({
+import { LIMIT } from "../model";
+
+export default createComponent({
   name: "Pagination",
 
   components: {

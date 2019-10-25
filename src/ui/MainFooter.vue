@@ -1,5 +1,7 @@
 <script lang="ts">
-import Vue, { CreateElement, RenderContext } from "vue";
+import { CreateElement, RenderContext } from "vue";
+
+import createComponent from "@/core/component";
 
 const Column = {
   name: "FooterColumn",
@@ -12,7 +14,7 @@ const Column = {
   },
 };
 
-export default Vue.extend({
+export default createComponent({
   name: "MainFooter",
 
   components: {

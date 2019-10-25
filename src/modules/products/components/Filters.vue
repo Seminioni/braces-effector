@@ -1,24 +1,22 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
+import createComponent from "@/core/component";
 import closeIcon from "@/assets/vector/close.svg";
-
-import { $selectedFilters } from "../model";
-
 import {
   BrCheckboxGroup, BrCheckbox, BrButton, BrLoader,
 } from "@/shared";
 import { Dictionary } from "@/lib/types";
 import { FilterView, Filter } from "@/services/products.service";
 
-export default Vue.extend({
-  name: "Filters",
+import { $selectedFilters } from "../model";
 
-  effector() {
-    return {
-      $selectedFilters,
-    };
-  },
+const store = {
+  $selectedFilters,
+};
+
+export default createComponent({
+  name: "Filters",
 
   components: {
     closeIcon,
@@ -38,10 +36,6 @@ export default Vue.extend({
     },
   },
 
-  data: () => ({
-    $selectedFilters: {} as State<typeof $selectedFilters>,
-  }),
-
   methods: {
     handleRemoveFilter(id: string) {
       this.$emit("update-route", {
@@ -56,7 +50,7 @@ export default Vue.extend({
       });
     },
   },
-});
+}, store);
 </script>
 
 <template>

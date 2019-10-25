@@ -1,9 +1,8 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import declOfNum from "@/lib/decl-of-num";
 
-export default Vue.extend({
+export default createComponent({
   name: "ProductsHeader",
 
   filters: { declOfNum },

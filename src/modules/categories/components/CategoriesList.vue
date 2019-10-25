@@ -1,23 +1,20 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
+import { BrLoader } from "@/shared";
 
 import { $categories } from "../model";
 
-import { BrLoader } from "@/shared";
+const store = {
+  $categories,
+};
 
-export default Vue.extend({
+export default createComponent({
   name: "CategoriesList",
-
-  effector() {
-    return {
-      $categories,
-    };
-  },
 
   components: {
     BrLoader,
   },
-});
+}, store);
 </script>
 
 <template>

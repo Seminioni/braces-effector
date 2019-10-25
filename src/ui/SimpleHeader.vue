@@ -1,23 +1,19 @@
 <script lang="ts">
-import Vue from "vue";
-
-import Logo from "@/ui/Logo.vue";
+import createComponent from "@/core/component";
+import { $isMobile } from "@/core/session";
 import { BrBadge, BrUserControl } from "@/shared";
-
 import { $productsInCart } from "@/modules/cart";
 import { Search } from "@/modules/search";
+import Logo from "@/ui/Logo.vue";
 
-import { $isMobile } from "@/core/session";
 
-export default Vue.extend({
+const store = {
+  $isMobile,
+  $productsInCart,
+};
+
+export default createComponent({
   name: "SimpleHeader",
-
-  effector() {
-    return {
-      $isMobile,
-      $productsInCart,
-    };
-  },
 
   components: {
     Logo,
@@ -25,7 +21,7 @@ export default Vue.extend({
     BrUserControl,
     Search,
   },
-});
+}, store);
 </script>
 
 <template>

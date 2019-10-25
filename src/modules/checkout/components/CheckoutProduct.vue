@@ -1,10 +1,11 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
+import createComponent from "@/core/component";
 import { FullProductModel } from "@/services/cart.service";
 import currency from "@/lib/currency";
 
-export default Vue.extend({
+export default createComponent({
   name: "CheckoutProduct",
 
   filters: { currency },

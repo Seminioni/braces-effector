@@ -1,6 +1,5 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { BrButton, BrLoader } from "@/shared";
 import {
   CartItem, $productsContextInCart, $totalAmount,
@@ -8,10 +7,16 @@ import {
   $isLoading,
 } from "@/modules/cart";
 import { RecommendedProducts } from "@/modules/products";
-
 import currency from "@/lib/currency";
 
-export default Vue.extend({
+const store = {
+  $isLoading,
+  $productsContextInCart,
+  $fullProductsModel,
+  $totalAmount,
+};
+
+export default createComponent({
   name: "CartPage",
 
   filters: { currency },
@@ -22,15 +27,6 @@ export default Vue.extend({
     };
   },
 
-  effector() {
-    return {
-      $isLoading,
-      $productsContextInCart,
-      $fullProductsModel,
-      $totalAmount,
-    };
-  },
-
   components: {
     CartItem,
     RecommendedProducts,
@@ -38,7 +34,7 @@ export default Vue.extend({
     BrButton,
     BrLoader,
   },
-});
+}, store);
 </script>
 
 <template>

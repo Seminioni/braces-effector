@@ -1,8 +1,6 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { CategoriesList } from "@/modules/categories";
-
 import { BrCollapse, BrCollapseItem } from "@/shared";
 
 const partners = [
@@ -14,7 +12,7 @@ const partners = [
   { src: "https://www.jetpik.by/wp-content/themes/minera/images/lg.png", alt: "#" },
 ];
 
-export default Vue.extend({
+export default createComponent({
   name: "HomePage",
 
   metaInfo() {

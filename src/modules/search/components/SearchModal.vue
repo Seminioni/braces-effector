@@ -1,13 +1,14 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
-
-import { reset } from "../model";
+import createComponent from "@/core/component";
 import { Product } from "@/services/products.service";
-
-import SearchTextfield from "./SearchTextfield.vue";
 import closeIcon from "@/assets/vector/close.svg";
 
-export default Vue.extend({
+import { reset } from "../model";
+
+import SearchTextfield from "./SearchTextfield.vue";
+
+export default createComponent({
   name: "SearchModal",
 
   components: {

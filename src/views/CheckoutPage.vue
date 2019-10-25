@@ -1,15 +1,20 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import {
   CheckoutProduct, CheckoutForm, CheckoutSuccess, $infoModel,
 } from "@/modules/checkout";
 import { $fullProductsModel, $productsContextInCart, $totalAmount } from "@/modules/cart";
-
 import declOfNum from "@/lib/decl-of-num";
 import currency from "@/lib/currency";
 
-export default Vue.extend({
+const store = {
+  $infoModel,
+  $fullProductsModel,
+  $totalAmount,
+  $productsContextInCart,
+};
+
+export default createComponent({
   name: "CheckoutPage",
 
   filters: { declOfNum, currency },
@@ -17,15 +22,6 @@ export default Vue.extend({
   metaInfo() {
     return {
       title: "Braces — Підтвердження",
-    };
-  },
-
-  effector() {
-    return {
-      $infoModel,
-      $fullProductsModel,
-      $totalAmount,
-      $productsContextInCart,
     };
   },
 
@@ -41,7 +37,7 @@ export default Vue.extend({
     },
   },
 
-});
+}, store);
 </script>
 
 <template>

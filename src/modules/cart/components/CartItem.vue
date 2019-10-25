@@ -1,5 +1,6 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
+import createComponent from "@/core/component";
 
 import { FullProductModel, ProductMetadata } from "@/services/cart.service";
 import { updatedQuantity } from "@/modules/cart";
@@ -8,16 +9,13 @@ import { $isMobile } from "@/core/session";
 import { BrInputNumber, BrButton } from "@/shared";
 import currency from "@/lib/currency";
 
-export default Vue.extend({
+const store = {
+  $isMobile,
+};
+export default createComponent({
   name: "CartItem",
 
   filters: { currency },
-
-  effector() {
-    return {
-      $isMobile,
-    };
-  },
 
   components: {
     BrInputNumber,
@@ -35,10 +33,6 @@ export default Vue.extend({
     },
   },
 
-  data: () => ({
-    $isMobile: {} as State<typeof $isMobile>,
-  }),
-
   methods: {
     updatedQuantity,
     handleDelete() {
@@ -52,7 +46,7 @@ export default Vue.extend({
       }
     },
   },
-});
+}, store);
 </script>
 
 <template>

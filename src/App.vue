@@ -1,27 +1,18 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { lockBody, unlockBody } from "@/lib/body-lock";
 import { $categories } from "@/modules/categories";
 import { $isMobile } from "@/core/session";
 import { fxFetchCartContext } from "@/modules/cart/events";
-
-
 import { BrLoader } from "@/shared";
 import BottomBar from "@/ui/BottomBar.vue";
 import Navigation from "@/ui/Navigation.vue";
 
 const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccessPage"];
+const store = { $isMobile, $categories };
 
-export default Vue.extend({
+export default createComponent({
   name: "App",
-
-  effector() {
-    return {
-      $categories,
-      $isMobile,
-    };
-  },
 
   components: {
     BottomBar,
@@ -55,7 +46,7 @@ export default Vue.extend({
       this.isOpened ? lockBody() : unlockBody();
     },
   },
-});
+}, store);
 </script>
 
 <template>

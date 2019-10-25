@@ -1,27 +1,23 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import { BrUserControl, BrBadge } from "@/shared";
 import { $productsInCart } from "@/modules/cart";
 
 import Logo from "./Logo.vue";
 
+const store = {
+  $productsInCart,
+};
 
-export default Vue.extend({
+export default createComponent({
   name: "BottomBar",
-
-  effector() {
-    return {
-      $productsInCart,
-    };
-  },
 
   components: {
     BrUserControl,
     BrBadge,
     Logo,
   },
-});
+}, store);
 </script>
 
 <template>

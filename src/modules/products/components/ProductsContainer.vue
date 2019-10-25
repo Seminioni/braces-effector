@@ -1,7 +1,11 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import orderBy from "lodash.orderby";
 
+import createComponent from "@/core/component";
+import { Category } from "@/services/categories.service";
+import { Options } from "@/services/products.service";
+import { BrButton, BrLoader } from "@/shared";
 import { unlockBody, lockBody } from "@/lib/body-lock";
 
 import {
@@ -10,31 +14,25 @@ import {
   LIMIT,
 } from "../model";
 
-import { Category } from "@/services/categories.service";
-import { Options } from "@/services/products.service";
-
-import { BrButton, BrLoader } from "@/shared";
 import Filters from "./Filters.vue";
 import ProductCard from "./ProductCard.vue";
 import ProductsHeader from "./ProductsHeader.vue";
 import Pagination from "./Pagination.vue";
 
-export default Vue.extend({
+const store = {
+  $filters,
+  $filterItems,
+  $selectedFilters,
+
+  $isFiltersPending,
+  $isProductsPending,
+
+  $products,
+  $productsTotal,
+};
+
+export default createComponent({
   name: "ProductsContainer",
-
-  effector() {
-    return {
-      $filters,
-      $filterItems,
-      $selectedFilters,
-
-      $isFiltersPending,
-      $isProductsPending,
-
-      $products,
-      $productsTotal,
-    };
-  },
 
   components: {
     BrButton,
@@ -55,11 +53,6 @@ export default Vue.extend({
 
   data: () => ({
     isOpened: false,
-    $filters: {} as State<typeof $filters>,
-    $selectedFilters: {} as State<typeof $selectedFilters>,
-    $productsTotal: {} as State<typeof $productsTotal>,
-    $products: {} as State<typeof $products>,
-    $isFiltersPending: {} as State<typeof $isFiltersPending>,
   }),
 
   computed: {
@@ -135,7 +128,7 @@ export default Vue.extend({
       });
     },
   },
-});
+}, store);
 </script>
 
 <template>

@@ -1,9 +1,9 @@
 <script lang="ts">
-import Vue from "vue";
+import createComponent from "@/core/component";
 import minIcon from "@/assets/vector/min.svg";
 import maxIcon from "@/assets/vector/plus.svg";
 
-export default Vue.extend({
+export default createComponent({
   name: "BrInputNumber",
 
   components: {

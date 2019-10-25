@@ -1,24 +1,22 @@
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
+import createComponent from "@/core/component";
 import { Product } from "@/services/products.service";
 import {
   addedItemToCart, $productsInCart, $productsContextInCart, updatedQuantity, fxAddItemToCart,
 } from "@/modules/cart";
-
 import { BrButton, BrInputNumber } from "@/shared";
 import currency from "@/lib/currency";
 
-export default Vue.extend({
-  name: "ProductCard",
+const store = {
+  $isLoading: fxAddItemToCart.pending,
+  $productsInCart,
+  $productsContextInCart,
+};
 
-  effector() {
-    return {
-      $isLoading: fxAddItemToCart.pending,
-      $productsInCart,
-      $productsContextInCart,
-    };
-  },
+export default createComponent({
+  name: "ProductCard",
 
   filters: { currency },
 
@@ -42,7 +40,7 @@ export default Vue.extend({
     updatedQuantity,
     addedItemToCart,
   },
-});
+}, store);
 </script>
 
 <template>

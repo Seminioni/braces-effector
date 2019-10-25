@@ -1,20 +1,17 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import {
   BrRadioGroup, BrRadio, BrButton, BrInput,
 } from "@/shared";
 
 import { $deliveryModel, updatedDelivery } from "../model";
 
-export default Vue.extend({
-  name: "CheckoutDelivery",
+const store = {
+  $deliveryModel,
+};
 
-  effector() {
-    return {
-      $deliveryModel,
-    };
-  },
+export default createComponent({
+  name: "CheckoutDelivery",
 
   components: {
     BrRadioGroup,
@@ -32,7 +29,7 @@ export default Vue.extend({
       });
     },
   },
-});
+}, store);
 </script>
 
 <template>

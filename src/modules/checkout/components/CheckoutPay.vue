@@ -1,26 +1,23 @@
 <script lang="ts">
-import Vue from "vue";
-
+import createComponent from "@/core/component";
 import {
   BrRadioGroup, BrRadio, BrButton, BrInput,
 } from "@/shared";
+import { $cartContext } from "@/modules/cart";
+import { PayType } from "@/services/cart.service";
 
 import {
   $payModel, updatedPay, confirmOrder, fxSendOrder,
 } from "../model";
-import { $cartContext } from "@/modules/cart";
-import { PayType } from "@/services/cart.service";
 
-export default Vue.extend({
+const store = {
+  $isLoading: fxSendOrder.pending,
+  $cartContext,
+  $payModel,
+};
+
+export default createComponent({
   name: "CheckoutPay",
-
-  effector() {
-    return {
-      $isLoading: fxSendOrder.pending,
-      $cartContext,
-      $payModel,
-    };
-  },
 
   components: {
     BrRadioGroup,
@@ -28,10 +25,6 @@ export default Vue.extend({
     BrButton,
     BrInput,
   },
-
-  data: () => ({
-    $cartContext: {} as State<typeof $cartContext>,
-  }),
 
   methods: {
     updatedPay,
@@ -50,7 +43,7 @@ export default Vue.extend({
       this.confirmOrder(this.$cartContext.id);
     },
   },
-});
+}, store);
 </script>
 
 <template>

@@ -1,21 +1,19 @@
 <script lang="ts">
-import Vue from "vue";
-
-import ProductCard from "./ProductCard.vue";
+import createComponent from "@/core/component";
 import { BrLoader } from "@/shared";
 
 import { $recommendedProducts } from "../model";
 import { fxFetchRecommendedProducts } from "../events";
 
-export default Vue.extend({
-  name: "RecommendedProducts",
+import ProductCard from "./ProductCard.vue";
 
-  effector() {
-    return {
-      $recommendedProducts,
-      $isLoading: fxFetchRecommendedProducts.pending,
-    };
-  },
+const store = {
+  $recommendedProducts,
+  $isLoading: fxFetchRecommendedProducts.pending,
+};
+
+export default createComponent({
+  name: "RecommendedProducts",
 
   components: {
     ProductCard,
@@ -36,7 +34,7 @@ export default Vue.extend({
   methods: {
     fxFetchRecommendedProducts,
   },
-});
+}, store);
 </script>
 
 <template>

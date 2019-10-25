@@ -1,27 +1,22 @@
 <script lang="ts">
-import Vue from "vue";
-import { createStoreObject } from "effector";
-
+import createComponent from "@/core/component";
 import { Product } from "@/services/products.service";
 import { unlockBody, lockBody } from "@/lib/body-lock";
 import { $isMobile } from "@/core/session";
+
 import { $results, $isLoading, handleChange } from "../model";
 
 import SearchTextfield from "./SearchTextfield.vue";
 import SearchModal from "./SearchModal.vue";
 
-const store = createStoreObject({
+const store = {
   $isMobile,
   $results,
   $isLoading,
-});
+};
 
-export default Vue.extend({
+export default createComponent({
   name: "Search",
-
-  effector() {
-    return store;
-  },
 
   components: {
     SearchTextfield,
@@ -31,12 +26,11 @@ export default Vue.extend({
   data: () => ({
     isOpened: false,
     query: "",
-    state: {} as State<typeof store>,
   }),
 
   computed: {
     results(): Product[] {
-      return this.state.$results
+      return this.$results
         .filter(p => p.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1);
     },
   },
@@ -48,7 +42,7 @@ export default Vue.extend({
   methods: {
     handleChange,
     handleToggle() {
-      if (!this.state.$isMobile) {
+      if (!this.$isMobile) {
         return;
       }
 
@@ -58,16 +52,16 @@ export default Vue.extend({
       this.isOpened ? lockBody() : unlockBody();
     },
   },
-});
+}, store);
 </script>
 
 <template>
   <div class="search">
     <search-textfield
       v-model="query"
-      :readonly="state.$isMobile"
-      :loading="state.$isLoading"
-      :autocomplete="!state.$isMobile"
+      :readonly="$isMobile"
+      :loading="$isLoading"
+      :autocomplete="!$isMobile"
       :results="results"
       @toggle="handleToggle"
     />
@@ -77,10 +71,10 @@ export default Vue.extend({
       mode="out-in"
     >
       <search-modal
-        v-if="state.$isMobile && isOpened"
+        v-if="$isMobile && isOpened"
         v-model="query"
         :results="results"
-        :loading="state.$isLoading"
+        :loading="$isLoading"
         @toggle="handleToggle"
       />
     </transition>
