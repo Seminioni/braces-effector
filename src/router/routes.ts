@@ -163,6 +163,11 @@ const routes: R[] = [
       },
     },
   },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: lazy(import("@/views/LoginPage.vue")),
+  },
 ];
 
 export default routes;

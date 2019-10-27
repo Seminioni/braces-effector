@@ -46,7 +46,6 @@ instance.interceptors.response.use(
 
         return instance(newRequest);
       } catch (ex) {
-        console.warn(''); // eslint-disable-line
         throw Promise.reject(ex);
       }
     }

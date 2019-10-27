@@ -1,6 +1,7 @@
 <script lang="ts">
 import createComponent from "@/core/component";
-import { CategoriesList } from "@/modules/categories";
+
+import CategoriesList from "@/modules/categories/shared/CategoriesList.vue";
 import { BrCollapse, BrCollapseItem } from "@/shared";
 
 const partners = [

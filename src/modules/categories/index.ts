@@ -10,8 +10,6 @@ const $categories = restore(
   [],
 );
 
-
-export { default as CategoriesList } from "./shared/CategoriesList.vue";
 export {
   fxFetchCategories,
   $categories,
