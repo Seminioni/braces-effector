@@ -3,6 +3,7 @@ import { R } from "vue-router";
 import lazy from "@/router/lib/lazy";
 import fetchCategories from "@/router/lib/fetch-categories";
 import { fxFetchOrders } from "./modules/orders";
+import { fxFetchFilterGroups } from "./modules/filters";
 
 const children: R[] = [
   {
@@ -25,6 +26,7 @@ const children: R[] = [
     component: lazy(import("./views/DashboardFiltersPage.vue")),
     meta: {
       beforeResolve(to, from, next) {
+        fxFetchFilterGroups();
         next();
       },
     },
