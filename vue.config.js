@@ -87,16 +87,16 @@ module.exports = {
           sortAttributes: true,
         },
 
-        server: {
-          port: 8001,
-        },
+        // server: {
+        //   port: 8001,
+        // },
 
-        renderer: new Renderer({
-          maxConcurrentRoutes: 4,
-          headless: true,
-          renderAfterDocumentEvent: "render-event",
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        }),
+        // renderer: new Renderer({
+        //   maxConcurrentRoutes: 4,
+        //   headless: true,
+        //   renderAfterDocumentEvent: "render-event",
+        //   args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        // }),
       }),
 
     ],
