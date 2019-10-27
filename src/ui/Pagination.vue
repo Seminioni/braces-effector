@@ -6,7 +6,7 @@ import { Category } from "@/services/categories.service";
 import arrowIcon from "@/assets/vector/arrow_down.svg";
 import { BrButton } from "@/shared";
 
-import { LIMIT } from "../model";
+import { LIMIT } from "@/modules/products";
 
 export default createComponent({
   name: "Pagination",
@@ -35,12 +35,13 @@ export default createComponent({
     },
     currentCategory: {
       type: Object as PropType<Category>,
-      required: true,
+      default: null,
     },
   },
 
   computed: {
     pages() {
+      console.log(this.total, this.limit);
       return Math.ceil(this.total / this.limit);
     },
   },
@@ -81,10 +82,11 @@ export default createComponent({
           @click.capture="handleOffset((page - 1) * limit, $event)"
         >
           <router-link
-            :to="`/products/${currentCategory.path}?offset=${(page - 1) * limit}&limit=${limit}`"
-            class="body-text-18 pagination__link pagination__link--active bold"
+            :to="`/products/${currentCategory && currentCategory.path}?offset=${(page - 1) * limit}&limit=${limit}`"
+            class="body-text-18 pagination__link"
+            :class="{ 'pagination__link--active bold': (page - 1) === offset / limit }"
           >
-            1
+            {{ page }}
           </router-link>
         </li>
       </ul>
@@ -93,6 +95,7 @@ export default createComponent({
         type="circle"
         class="pagination__btn pagination__btn--next"
         :disabled="(offset * limit) >= total"
+        @click="handleOffset(offset + limit)"
       >
         <arrow-icon />
       </br-button>

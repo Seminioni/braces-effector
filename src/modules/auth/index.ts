@@ -2,7 +2,7 @@ import {
   createEffect, createEvent, sample, forward,
 } from "effector";
 
-import { $loginModel, $roles } from "./store";
+import { $loginModel, $roles, $isAdmin } from "./store";
 import { updatedToken, resetToken } from "@/core/session";
 import createFormHandler from "@/core/create-form-handler";
 import authService, { Auth, LoginModel } from "@/services/auth.service";
@@ -59,4 +59,5 @@ export {
   resetRoles,
 
   $loginModel,
+  $isAdmin,
 };

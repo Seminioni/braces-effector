@@ -1,6 +1,7 @@
 <script lang="ts">
 import createComponent from "@/core/component";
 import { $isMobile } from "@/core/session";
+import { $isAdmin } from "@/modules/auth";
 import { Search } from "@/modules/search";
 import { $productsInCart } from "@/modules/cart";
 import { BrUserControl, BrBadge } from "@/shared";
@@ -8,6 +9,7 @@ import Logo from "@/ui/Logo.vue";
 
 const store = {
   $isMobile,
+  $isAdmin,
   $productsInCart,
 };
 
@@ -44,7 +46,10 @@ export default createComponent({
         v-if="!$isMobile"
         class="col main-header__controls justify-end align-center"
       >
-        <br-badge :count="Object.keys($productsInCart).length">
+        <br-badge
+          v-if="!$isAdmin"
+          :count="Object.keys($productsInCart).length"
+        >
           <br-user-control
             :to="{ name: 'CartPage' }"
             icon="cart"
@@ -52,6 +57,14 @@ export default createComponent({
             Кошик
           </br-user-control>
         </br-badge>
+
+        <br-user-control
+          v-else
+          :to="{ name: 'DashboardOrdersPage' }"
+          icon="settings"
+        >
+          Адмін
+        </br-user-control>
 
         <br-user-control
           icon="menu"

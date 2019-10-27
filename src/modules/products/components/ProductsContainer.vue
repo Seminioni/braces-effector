@@ -17,7 +17,7 @@ import {
 import Filters from "./Filters.vue";
 import ProductCard from "./ProductCard.vue";
 import ProductsHeader from "./ProductsHeader.vue";
-import Pagination from "./Pagination.vue";
+import Pagination from "@/ui/Pagination.vue";
 
 const store = {
   $filters,
@@ -196,7 +196,7 @@ export default createComponent({
             </ul>
 
             <pagination
-              v-if="((stats.offset * limit) >= $productsTotal) && products.length"
+              v-if="products.length"
               :offset="stats.offset"
               :total="$productsTotal"
               :current-category="currentCategory"

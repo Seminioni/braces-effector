@@ -1,7 +1,7 @@
 import { R } from "vue-router";
 
 import lazy from "./lib/lazy";
-import { fxFetchCategories, $categories } from "@/modules/categories";
+import { $categories } from "@/modules/categories";
 import {
   fxFetchFiltersByCategory,
   updatedQuery,
@@ -13,6 +13,7 @@ import {
 import { $cartContext, fxFetchCartContext } from "@/modules/cart";
 import { fxValidate, resetRoles } from "@/modules/auth";
 import { $roles } from "@/modules/auth/store";
+import fetchCategories from "./lib/fetch-categories";
 
 const children: R[] = [
   {
@@ -151,17 +152,8 @@ const routes: R[] = [
           }
         }
 
-        if (to.name !== "ProductsPage" && to.name !== "ProductPage") {
-          if (!$categories.getState().length) {
-            fxFetchCategories();
-          }
-          return next();
-        }
-
-        if (!$categories.getState().length) {
-          await fxFetchCategories();
-        }
-        return next();
+        await fetchCategories(to);
+        next();
       },
     },
   },

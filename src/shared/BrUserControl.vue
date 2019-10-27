@@ -7,6 +7,7 @@ export default createComponent({
   components: {
     cartIcon: () => import("@/assets/vector/cart.svg"),
     menuIcon: () => import("@/assets/vector/menu.svg"),
+    settingsIcon: () => import("@/assets/vector/settings.svg"),
   },
 
   inheritAttrs: false,
