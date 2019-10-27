@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import routes from "./routes";
 import beforeResolve from "./lib/before-resolve";
+import { fxLogin } from "@/modules/auth";
 
 Vue.use(Router);
 
@@ -16,6 +17,12 @@ const router = new Router({
     }
     return { x: 0, y: 0 };
   },
+});
+
+fxLogin.done.watch(() => {
+  router.push({
+    name: "HomePage",
+  });
 });
 
 beforeResolve(router);

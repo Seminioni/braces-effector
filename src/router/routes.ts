@@ -11,6 +11,8 @@ import {
   fxFetchProductById,
 } from "@/modules/products";
 import { $cartContext, fxFetchCartContext } from "@/modules/cart";
+import { fxValidate, resetRoles } from "@/modules/auth";
+import { $roles } from "@/modules/auth/store";
 
 const children: R[] = [
   {
@@ -167,6 +169,26 @@ const routes: R[] = [
     path: "/login",
     name: "LoginPage",
     component: lazy(import("@/views/LoginPage.vue")),
+    meta: {
+      async beforeResolve(to, from, next) {
+        const roles = $roles.getState();
+
+        try {
+          await fxValidate();
+
+          if (!roles.includes("ADMIN")) {
+            return next();
+          }
+
+          return next({
+            name: "HomePage",
+          });
+        } catch (ex) {
+          resetRoles();
+          return next();
+        }
+      },
+    },
   },
 ];
 

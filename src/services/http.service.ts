@@ -3,6 +3,12 @@ import axios, { AxiosRequestConfig } from "axios";
 import { updatedToken } from "@/core/session";
 
 const baseURL = process.env.VUE_APP_API_BASE_URL || `http://localhost:${process.env.PORT}`;
+const AUTH_URL = "/api_keys/";
+const CHECK_URL = "/api_keys/check";
+const FULL_AUTH_URL = `${process.env.VUE_APP_API_BASE_URL}${AUTH_URL}`;
+const FULL_CHECK_URL = `${process.env.VUE_APP_API_BASE_URL}${CHECK_URL}`;
+
+const BLACK_LIST_URLS = [FULL_AUTH_URL, FULL_CHECK_URL];
 
 const instance = axios.create({
   baseURL,
@@ -17,7 +23,7 @@ instance.interceptors.request.use((axiosConfig) => {
 
   const base64 = localStorage.getItem("session");
 
-  if (!base64) {
+  if (config.url === AUTH_URL || !base64) {
     return axiosConfig;
   }
 
@@ -28,7 +34,10 @@ instance.interceptors.request.use((axiosConfig) => {
 instance.interceptors.response.use(
   response => response,
   async (error) => {
-    if (error.response && error.response.status === 401) {
+    if (
+      error.response && error.response.status === 401
+      && !BLACK_LIST_URLS.includes(error.response.config.url)
+    ) {
       try {
         const { data } = await instance.get<Auth>("/api_keys/guest");
 

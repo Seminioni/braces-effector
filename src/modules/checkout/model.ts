@@ -1,9 +1,10 @@
 import {
-  createApi, Store, createEvent, sample, combine, createEffect, createStore, restore,
+  createApi, createEvent, sample, combine, createEffect,
 } from "effector";
 
 import router from "@/router";
 import { createDomain } from "@/core/local-storage";
+import createFormHandler from "@/core/create-form-handler";
 
 import {
   InfoModel, DeliveryModel, PayModel, cartService, OrderDetailsResponse, OrderDetailsPayload,
@@ -19,23 +20,13 @@ const payDomain = createDomain("pay");
 const stepsDomain = createDomain("stepsDomain");
 const currentStepDomain = createDomain("currentStepDomain");
 
-function api<T>(store: Store<T>) {
-  const { update } = createApi(store, {
-    update: (state, { key, value }: { key: keyof T; value: string}) => ({
-      ...state,
-      [key]: value,
-    }),
-  });
-  return update;
-}
-
 const $infoModel = infoDomain.store(new InfoModel());
 const $deliveryModel = deliveryDomain.store(new DeliveryModel());
 const $payModel = payDomain.store(new PayModel());
 
-const updatedInfo = api($infoModel);
-const updatedDelivery = api($deliveryModel);
-const updatedPay = api($payModel);
+const updatedInfo = createFormHandler($infoModel);
+const updatedDelivery = createFormHandler($deliveryModel);
+const updatedPay = createFormHandler($payModel);
 
 const confirmOrder = createEvent<string>("confirmOrder");
 const fxSendOrder = createEffect<OrderDetailsPayload, OrderDetailsResponse>("fxSendOrder", {

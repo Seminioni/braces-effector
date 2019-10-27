@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import http from "./http.service";
 
 const url = "/api_keys";
@@ -12,6 +13,16 @@ async function getToken() {
   return data;
 }
 
+async function getPrimaryToken(config?: AxiosRequestConfig) {
+  const { data } = await http.post<Auth>(`${url}/`, undefined, config);
+  return data;
+}
+
+class LoginModel {
+  email = ""
+  password = ""
+}
+
 type Roles = ["GUEST" | "ADMIN" | "CLIENT"];
 type Keys = {
   publicKey: string;
@@ -24,11 +35,14 @@ type Auth = Keys & {
 const authService = {
   validate,
   getToken,
+  getPrimaryToken,
 };
 
 export {
   Auth,
   Keys,
+  LoginModel,
+  Roles,
 };
 
 export default authService;

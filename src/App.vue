@@ -8,7 +8,7 @@ import { BrLoader } from "@/shared";
 import BottomBar from "@/ui/BottomBar.vue";
 import Navigation from "@/ui/Navigation.vue";
 
-const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccessPage"];
+const simpleLayoutPages = ["CheckoutPage", "CheckoutSuccessPage", "LoginPage"];
 const store = { $isMobile, $categories };
 
 export default createComponent({
