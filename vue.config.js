@@ -68,16 +68,16 @@ module.exports = {
         indexPath: path.join(__dirname, "dist", "index.html"),
         routes: ["/", "/help", "/help/delivery", "/help/payment"],
 
-        postProcess(renderedRoute) {
-          renderedRoute.route = renderedRoute.originalRoute;
-          renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
+        // postProcess(renderedRoute) {
+        //   renderedRoute.route = renderedRoute.originalRoute;
+        //   renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
 
-          if (renderedRoute.route.endsWith(".html")) {
-            renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
-          }
+        //   if (renderedRoute.route.endsWith(".html")) {
+        //     renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
+        //   }
 
-          return renderedRoute;
-        },
+        //   return renderedRoute;
+        // },
 
         minify: {
           collapseBooleanAttributes: true,
