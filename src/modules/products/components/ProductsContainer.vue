@@ -199,6 +199,7 @@ export default createComponent({
               v-if="products.length"
               :offset="stats.offset"
               :total="$productsTotal"
+              :limit="limit"
               :current-category="currentCategory"
               align="center"
               @update-offset="handleOffset"

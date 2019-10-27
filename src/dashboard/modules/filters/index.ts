@@ -2,22 +2,32 @@ import {
   createEffect, createEvent, forward, guard, merge,
 } from "effector";
 
-import { $filterGroups, $filterGroupModel, $selectedFilterGroup } from "./store";
-import { FilterGroup } from "@/services/products.service";
+import {
+  $filterGroups, $filterGroupModel, $selectedFilterGroup, $filterModel, $filters, $selectedFilter,
+} from "./store";
+import { FilterGroup, Filter } from "@/services/products.service";
 import { filterService } from "@/dashboard/services/filters.service";
 import { EditPayload, EditResponse, RemovePayload } from "@/dashboard/services/types";
 
 const fxFetchFilterGroups = createEffect<void, FilterGroup[]>("fetch filter groups", {
   handler: filterService.fetchFilterGroups,
 });
+const fxFetchFilters = createEffect<void, Filter[]>("fetch filter groups", {
+  handler: filterService.fetchFilters,
+});
+
 const fxCreateFilterGroup = createEffect<string, FilterGroup>("create filter group", {
   handler: filterService.createFilterGroup,
 });
 const fxEditFilterGroup = createEffect<EditPayload<string>, EditResponse>("edit filter group", {
   handler: filterService.editFilterGroup,
 });
+
 const fxRemoveFilterGroup = createEffect<RemovePayload, string>("remove filter group", {
   handler: filterService.removeFilterGroup,
+});
+const fxRemoveFilter = createEffect<RemovePayload, string>("remove filter", {
+  handler: filterService.removeFilter,
 });
 
 const resetSelectedFilterGroup = createEvent<string>();
@@ -43,6 +53,10 @@ $filterGroups
       etag: result.etag,
     })));
 
+$filters
+  .on(fxFetchFilters.done, (_, { result: filters }) => filters)
+  .on(fxRemoveFilter.done, (filters, { result: id }) => filters.filter(f => f.id !== id));
+
 
 forward({
   from: selectedFilterGroup.map(group => group.title),
@@ -56,6 +70,7 @@ guard({
 });
 
 const $isFIlterGroupsLoading = fxFetchFilterGroups.pending;
+const $isFiltersLoading = fxFetchFilters.pending;
 
 
 export {
@@ -70,4 +85,9 @@ export {
   $filterGroups,
   $isFIlterGroupsLoading,
   $selectedFilterGroup,
+
+  fxFetchFilters,
+  fxRemoveFilter,
+  $isFiltersLoading,
+  $filters,
 };

@@ -6,8 +6,17 @@ const $selectedFilterGroup = createStore<FilterGroup | null>(null);
 
 const $filterGroupModel = createStore<string>("");
 
+const $filters = createStore<FilterGroup[]>([]);
+const $selectedFilter = createStore<FilterGroup | null>(null);
+
+const $filterModel = createStore<string>("");
+
 export {
   $filterGroups,
   $selectedFilterGroup,
   $filterGroupModel,
+
+  $filters,
+  $selectedFilter,
+  $filterModel,
 };

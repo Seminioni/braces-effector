@@ -2,6 +2,7 @@
 import createComponent from "@/core/component";
 
 import DashboardFilterGroupList from "@/dashboard/modules/filters/shared/DashboardFilterGroupList.vue";
+import DashboardFiltersList from "@/dashboard/modules/filters/shared/DashboardFiltersList.vue";
 import {
   changedFilterGroup, $filterGroupModel, fxCreateFilterGroup, $selectedFilterGroup,
   fxEditFilterGroup,
@@ -20,6 +21,7 @@ export default createComponent({
 
   components: {
     DashboardFilterGroupList,
+    DashboardFiltersList,
     BrInput,
     BrButton,
   },
@@ -63,7 +65,9 @@ export default createComponent({
         </br-button>
       </div>
     </div>
+
     <dashboard-filter-group-list />
+    <dashboard-filters-list />
   </div>
 </template>
 

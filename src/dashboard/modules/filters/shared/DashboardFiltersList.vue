@@ -2,21 +2,21 @@
 import createComponent from "@/core/component";
 
 import {
-  $isFIlterGroupsLoading, $filterGroups, selectedFilterGroup,
-  fxRemoveFilterGroup,
+  $isFiltersLoading, $filters, selectedFilterGroup,
+  fxRemoveFilter,
   $selectedFilterGroup,
 } from "..";
 
 import { BrLoader, BrButton } from "@/shared";
 
 const store = {
-  $isFIlterGroupsLoading,
-  $filterGroups,
+  $isFiltersLoading,
+  $filters,
   $selectedFilterGroup,
 };
 
 export default createComponent({
-  name: "DashboardFilterGroupList",
+  name: "DashboardFiltersList",
 
   components: {
     BrLoader,
@@ -25,7 +25,7 @@ export default createComponent({
 
   methods: {
     selectedFilterGroup,
-    fxRemoveFilterGroup,
+    fxRemoveFilter,
   },
 }, store);
 </script>
@@ -36,34 +36,34 @@ export default createComponent({
       class="bold"
       style="margin-top: 15px;"
     >
-      Фильтр-групи
+      Фильтри
     </h2>
 
     <br-loader>
       <ul
-        v-if="!$isFIlterGroupsLoading && $filterGroups.length"
+        v-if="!$isFiltersLoading && $filters.length"
         class="row"
       >
         <li
-          v-for="group in $filterGroups"
-          :key="group.id"
+          v-for="filter in $filters"
+          :key="filter.id"
           class="col filter-groups__item"
         >
           <div>
-            <span class="bold">Назва групи: </span>
-            {{ group.title }}
+            <span class="bold">Назва фільтру: </span>
+            {{ filter.title }}
           </div>
 
           <br-button
             type="text"
-            @click="selectedFilterGroup(group)"
+            @click="selectedFilterGroup(filter)"
           >
             Редагувати
           </br-button>
 
           <br-button
             type="text"
-            @click="fxRemoveFilterGroup({ etag: group.etag, id: group.id })"
+            @click="fxRemoveFilter({ etag: filter.etag, id: filter.id })"
           >
             Видалити
           </br-button>
