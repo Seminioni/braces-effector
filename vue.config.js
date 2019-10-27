@@ -95,7 +95,7 @@ module.exports = {
           maxConcurrentRoutes: 4,
           headless: false,
           renderAfterDocumentEvent: "render-event",
-          args: ["--no-sandbox"],
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
         }),
       }),
 
