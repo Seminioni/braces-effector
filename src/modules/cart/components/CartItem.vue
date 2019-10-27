@@ -12,6 +12,7 @@ import currency from "@/lib/currency";
 const store = {
   $isMobile,
 };
+
 export default createComponent({
   name: "CartItem",
 

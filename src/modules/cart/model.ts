@@ -19,39 +19,35 @@ import { createDomain } from "@/core/local-storage";
 const cartProducts = createDomain("cartProducts");
 const cartCtxProducts = createDomain("cartCtxProducts");
 
-const $cartContext = createStore<CartContext | null>(null)
-  .on(fxFetchCartContext.done, (_, { result: ctx }) => ctx);
+const $cartContext = createStore<CartContext | null>(null);
+const $isLoading = createStore(true);
+const $productsInCart = cartProducts.store<Dictionary<Product>>({});
+const $productsContextInCart = cartCtxProducts.store<Dictionary<ProductMetadata>>({});
 
-const $productsInCart = cartProducts.store<Dictionary<Product>>({})
-  .on(
-    fxFetchProductsFromCart.done,
-    (_, { result: products }) => reduceToDict(
-      products.map(({ product }) => product),
-      ({ id }) => id,
-      product => product,
-    ),
-  )
+$cartContext.on(fxFetchCartContext.done, (_, { result: ctx }) => ctx);
+
+$productsInCart
+  .on(fxFetchProductsFromCart.done, (_, { result: products }) => reduceToDict(
+    products.map(({ product }) => product),
+    ({ id }) => id,
+    product => product,
+  ))
   .on(addedItemToCart, (state, product) => ({ ...state, [product.id]: product }))
-  .on(
-    updatedQuantity,
-    (state, { productCtx, quantity }) => (quantity ? state : exclude(productCtx.productId, state)),
-  );
+  .on(updatedQuantity, (state, { productCtx, quantity }) => (quantity ? state : exclude(productCtx.productId, state)));
 
-const $productsContextInCart = cartCtxProducts.store<Dictionary<ProductMetadata>>({})
-  .on(
-    fxFetchProductsFromCart.done,
-    (_, { result: products }) => reduceToDict(
-      products.map(({ bucketProduct }) => bucketProduct),
-      ({ productId }) => productId,
-      ctx => ctx,
-    ),
-  )
+$productsContextInCart
+  .on(fxFetchProductsFromCart.done, (_, { result: products }) => reduceToDict(
+    products.map(({ bucketProduct }) => bucketProduct),
+    ({ productId }) => productId,
+    ctx => ctx,
+  ))
   .on(fxAddItemToCart.done, (state, { result: ctx }) => ({
     ...state,
     [ctx.productId]: ctx,
   }))
   .on(fxUpdateQuantity.done, (state, { result: ctx }) => {
     const { etag, productId, quantity } = ctx;
+
     if (!etag) {
       return exclude(productId, state);
     }
@@ -61,12 +57,10 @@ const $productsContextInCart = cartCtxProducts.store<Dictionary<ProductMetadata>
       [productId]: { ...state[productId], quantity, etag },
     };
   })
-  .on(updatedQuantity, (state, { productCtx, quantity }) => {
-    if (!quantity) {
-      return exclude(productCtx.productId, state);
-    }
-    return { ...state, [productCtx.productId]: { ...state[productCtx.productId], quantity } };
-  });
+  .on(updatedQuantity, (state, { productCtx, quantity }) => (
+    !quantity
+      ? exclude(productCtx.productId, state)
+      : { ...state, [productCtx.productId]: { ...state[productCtx.productId], quantity } }));
 
 const $totalAmount = combine(
   $productsContextInCart,
@@ -90,8 +84,7 @@ const $fullProductsModel = combine(
     }), {} as FullProductModel),
 );
 
-const $isLoading = createStore(true)
-  .on(fxFetchProductsFromCart.pending.updates, (_, isLoading) => isLoading);
+$isLoading.on(fxFetchProductsFromCart.pending.updates, (_, isLoading) => isLoading);
 
 forward({
   from: fxFetchCartContext.done

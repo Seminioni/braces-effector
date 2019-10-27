@@ -49,8 +49,11 @@ export default createComponent({
   async created() {
     await this.$nextTick();
     if (this.$slots.default) {
-      // @ts-ignore
-      const paneSlots = this.$slots.default.filter(vnode => vnode.tag && vnode.componentOptions && vnode.componentOptions.Ctor.options.name === "BrTabItem");
+      const paneSlots = this.$slots.default
+        .filter(
+          // @ts-ignore
+          vnode => vnode.tag && vnode.componentOptions && vnode.componentOptions.Ctor.options.name === "BrTabItem",
+        );
       this.navs = paneSlots
         .map(({ componentOptions }) => (componentOptions!.propsData! as any).label);
     }

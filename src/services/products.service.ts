@@ -2,7 +2,8 @@ import http from "./http.service";
 
 async function fetchProductsByFilters({ categoryId, filters, metadata }: Options) {
   const { limit, offset } = metadata;
-  const response = await http.post<Product[]>(`/category/${categoryId}/filter?limit=${limit}&offset=${offset}`, filters || []);
+  const response = await http
+    .post<Product[]>(`/category/${categoryId}/filter?limit=${limit}&offset=${offset}`, filters || []);
   return response;
 }
 

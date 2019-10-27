@@ -17,6 +17,7 @@ module.exports = {
     "import/extensions": [
       { ts: "never" },
     ],
+    "max-len": [2, 120, 4, { ignoreUrls: true }],
     "import/prefer-default-export": "off",
     "lines-between-class-members": "off",
     "import/no-extraneous-dependencies": "off",

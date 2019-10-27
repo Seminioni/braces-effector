@@ -2,7 +2,7 @@
 import createComponent from "@/core/component";
 import { BrLoader } from "@/shared";
 
-import { $categories } from "../model";
+import { $categories } from "..";
 
 const store = {
   $categories,
