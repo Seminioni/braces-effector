@@ -41,6 +41,7 @@ function createComponent<
   >,
   store?: S,
 ) {
+  // @ts-ignore
   return Vue.extend({
     ...options,
     ...(store && {
