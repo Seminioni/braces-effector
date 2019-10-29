@@ -6,6 +6,8 @@ import { fxFetchOrders } from "./modules/orders";
 import { fxFetchFilterGroups } from "./modules/filters/filter-group";
 import { fxFetchFilters } from "./modules/filters";
 import { fxFetchImages } from "./modules/images";
+import { fxValidate, resetRoles } from "@/modules/auth";
+import { $roles } from "@/modules/auth/store";
 
 const children: R[] = [
   {
@@ -61,8 +63,25 @@ const routes: R[] = [
     component: lazy(import("./views/DashboardPage.vue")),
     meta: {
       async beforeResolve(to, from, next) {
-        await fetchCategories(to);
-        next();
+        const roles = $roles.getState();
+
+        try {
+          await fxValidate();
+
+          if (roles.includes("ADMIN")) {
+            await fetchCategories(to);
+            return next();
+          }
+
+          return next({
+            name: "HomePage",
+          });
+        } catch (ex) {
+          resetRoles();
+          return next({
+            name: "HomePage",
+          });
+        }
       },
     },
   },
