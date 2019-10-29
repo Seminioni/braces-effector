@@ -6,6 +6,7 @@ const pages = [
   { label: "Замовлення", to: "/dashboard/orders" },
   { label: "Фільтри", to: "/dashboard/filters" },
   { label: "Зображення", to: "/dashboard/images" },
+  { label: "Категорії", to: "/dashboard/categories" },
 ];
 
 export default createComponent({
