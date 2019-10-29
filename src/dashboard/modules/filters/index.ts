@@ -1,93 +1,76 @@
 import {
-  createEffect, createEvent, forward, guard, merge,
+  createEffect, createEvent, merge, forward, guard,
 } from "effector";
 
 import {
-  $filterGroups, $filterGroupModel, $selectedFilterGroup, $filterModel, $filters, $selectedFilter,
+  $filterModel, $filters, $selectedFilter,
 } from "./store";
-import { FilterGroup, Filter } from "@/services/products.service";
-import { filterService } from "@/dashboard/services/filters.service";
-import { EditPayload, EditResponse, RemovePayload } from "@/dashboard/services/types";
+import { Filter } from "@/services/products.service";
+import { filterService, FilterPayload } from "@/dashboard/services/filters.service";
+import { RemovePayload, EditPayload, EditResponse } from "@/dashboard/services/types";
+import createFormHandler from "@/core/create-form-handler";
 
-const fxFetchFilterGroups = createEffect<void, FilterGroup[]>("fetch filter groups", {
-  handler: filterService.fetchFilterGroups,
-});
 const fxFetchFilters = createEffect<void, Filter[]>("fetch filter groups", {
   handler: filterService.fetchFilters,
 });
-
-const fxCreateFilterGroup = createEffect<string, FilterGroup>("create filter group", {
-  handler: filterService.createFilterGroup,
+const fxCreateFilter = createEffect<FilterPayload, Filter>("create filter", {
+  handler: filterService.createFilter,
 });
-const fxEditFilterGroup = createEffect<EditPayload<string>, EditResponse>("edit filter group", {
-  handler: filterService.editFilterGroup,
-});
-
-const fxRemoveFilterGroup = createEffect<RemovePayload, string>("remove filter group", {
-  handler: filterService.removeFilterGroup,
+const fxEditFilter = createEffect<EditPayload<FilterPayload>, EditResponse>("edit filter", {
+  handler: filterService.editFilter,
 });
 const fxRemoveFilter = createEffect<RemovePayload, string>("remove filter", {
   handler: filterService.removeFilter,
 });
 
-const resetSelectedFilterGroup = createEvent<string>();
-const selectedFilterGroup = createEvent<FilterGroup>("select filter group for change data");
-const changedFilterGroup = createEvent<string>("change filter group input");
+const resetFilter = createEvent<FilterPayload>("reset filter");
+const selectedFilter = createEvent<Filter>("select filter");
+const changedFilter = createFormHandler($filterModel);
 
-$selectedFilterGroup
-  .on(selectedFilterGroup, (_, group) => group)
-  .reset(merge([fxEditFilterGroup.done, resetSelectedFilterGroup]));
+$filterModel
+  .on(selectedFilter.map(filter => ({
+    title: filter.title,
+    filterGroupId: filter.filterGroupId,
+  })), (_, filter) => filter)
+  .reset(merge([fxCreateFilter.done, fxEditFilter.done]));
 
-$filterGroupModel
-  .on(changedFilterGroup, (_, str) => str)
-  .reset(merge([fxEditFilterGroup.done, fxCreateFilterGroup.done]));
+$selectedFilter
+  .on(selectedFilter, (_, filter) => filter)
+  .reset(merge([fxEditFilter.done, resetFilter]));
 
-$filterGroups
-  .on(fxFetchFilterGroups.done, (_, { result: filterGroups }) => filterGroups)
-  .on(fxCreateFilterGroup.done, (filterGroups, { result: group }) => [group, ...filterGroups])
-  .on(fxRemoveFilterGroup.done, (filterGroups, { result: id }) => filterGroups.filter(f => f.id !== id))
-  .on(fxEditFilterGroup.done, (filterGroups, { result, params }) => filterGroups = [...filterGroups]
-    .map(f => (f.id !== params.id ? f : {
-      ...f,
-      title: params.model,
-      etag: result.etag,
-    })));
 
 $filters
   .on(fxFetchFilters.done, (_, { result: filters }) => filters)
+  .on(fxEditFilter.done, (filters, { result, params }) => [...filters]
+    .map(f => (f.id !== params.id ? f : {
+      ...f,
+      title: params.model.title,
+      filterGroupId: params.model.filterGroupId,
+      etag: result.etag,
+    })))
+  .on(fxCreateFilter.done, (filters, { result: filter }) => [filter, ...filters])
   .on(fxRemoveFilter.done, (filters, { result: id }) => filters.filter(f => f.id !== id));
 
-
-forward({
-  from: selectedFilterGroup.map(group => group.title),
-  to: changedFilterGroup,
-});
-
 guard({
-  source: $filterGroupModel,
-  filter: title => !title.length,
-  target: resetSelectedFilterGroup,
+  source: $filterModel,
+  filter: filter => !filter.title.length,
+  target: resetFilter,
 });
 
-const $isFIlterGroupsLoading = fxFetchFilterGroups.pending;
+
 const $isFiltersLoading = fxFetchFilters.pending;
 
 
 export {
-  fxFetchFilterGroups,
-  fxCreateFilterGroup,
-  fxEditFilterGroup,
-  fxRemoveFilterGroup,
-  changedFilterGroup,
-  selectedFilterGroup,
-
-  $filterGroupModel,
-  $filterGroups,
-  $isFIlterGroupsLoading,
-  $selectedFilterGroup,
-
   fxFetchFilters,
   fxRemoveFilter,
+  fxCreateFilter,
+  fxEditFilter,
+  selectedFilter,
+  changedFilter,
+
   $isFiltersLoading,
+  $selectedFilter,
+  $filterModel,
   $filters,
 };

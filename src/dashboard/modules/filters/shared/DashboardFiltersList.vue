@@ -2,17 +2,17 @@
 import createComponent from "@/core/component";
 
 import {
-  $isFiltersLoading, $filters, selectedFilterGroup,
-  fxRemoveFilter,
-  $selectedFilterGroup,
+  $isFiltersLoading, $filters,
+  fxRemoveFilter, selectedFilter,
 } from "..";
+import { $filterGroups } from "../filter-group";
 
 import { BrLoader, BrButton } from "@/shared";
 
 const store = {
   $isFiltersLoading,
   $filters,
-  $selectedFilterGroup,
+  $filterGroups,
 };
 
 export default createComponent({
@@ -24,7 +24,10 @@ export default createComponent({
   },
 
   methods: {
-    selectedFilterGroup,
+    selectedFilter,
+    filterGroup(id: string) {
+      return this.$filterGroups.find(f => f.id === id);
+    },
     fxRemoveFilter,
   },
 }, store);
@@ -54,9 +57,14 @@ export default createComponent({
             {{ filter.title }}
           </div>
 
+          <div>
+            <span class="bold">Фільтр-група: </span>
+            {{ filterGroup(filter.filterGroupId).title }}
+          </div>
+
           <br-button
             type="text"
-            @click="selectedFilterGroup(filter)"
+            @click="selectedFilter(filter)"
           >
             Редагувати
           </br-button>

@@ -5,7 +5,7 @@ import {
   $isFIlterGroupsLoading, $filterGroups, selectedFilterGroup,
   fxRemoveFilterGroup,
   $selectedFilterGroup,
-} from "..";
+} from "../filter-group";
 
 import { BrLoader, BrButton } from "@/shared";
 

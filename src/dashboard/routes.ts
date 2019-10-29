@@ -3,7 +3,8 @@ import { R } from "vue-router";
 import lazy from "@/router/lib/lazy";
 import fetchCategories from "@/router/lib/fetch-categories";
 import { fxFetchOrders } from "./modules/orders";
-import { fxFetchFilterGroups, fxFetchFilters } from "./modules/filters";
+import { fxFetchFilterGroups } from "./modules/filters/filter-group";
+import { fxFetchFilters } from "./modules/filters";
 
 const children: R[] = [
   {

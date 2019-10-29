@@ -1,6 +1,7 @@
 import http from "@/services/http.service";
-import { EditPayload, RemovePayload } from "./types";
-import { FilterGroup, Filter } from "@/services/products.service";
+import {
+  FilterGroup, Filter, EditPayload, RemovePayload,
+} from "./types";
 
 class FilterPayload {
   title = "";
