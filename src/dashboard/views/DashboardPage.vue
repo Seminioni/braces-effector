@@ -5,6 +5,7 @@ import { BrTab } from "@/shared";
 const pages = [
   { label: "Замовлення", to: "/dashboard/orders" },
   { label: "Фільтри", to: "/dashboard/filters" },
+  { label: "Зображення", to: "/dashboard/images" },
 ];
 
 export default createComponent({

@@ -5,6 +5,7 @@ import fetchCategories from "@/router/lib/fetch-categories";
 import { fxFetchOrders } from "./modules/orders";
 import { fxFetchFilterGroups } from "./modules/filters/filter-group";
 import { fxFetchFilters } from "./modules/filters";
+import { fxFetchImages } from "./modules/images";
 
 const children: R[] = [
   {
@@ -17,6 +18,17 @@ const children: R[] = [
           limit: 10,
           offset: 0,
         });
+        next();
+      },
+    },
+  },
+  {
+    path: "images",
+    name: "DashboardImages",
+    component: lazy(import("./views/DashboardImages.vue")),
+    meta: {
+      async beforeResolve(to, from, next) {
+        fxFetchImages();
         next();
       },
     },
