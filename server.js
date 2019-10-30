@@ -11,11 +11,11 @@ const app = express();
 //   orderPreference: ["br"],
 // }));
 
+app.use(express.static(path.join(__dirname, "/dist/")));
 app.get(/.*/, (_, res) => {
   res.sendFile(`${__dirname}/dist/index.html`);
 });
 
-app.use(serveStatic(path.join(__dirname, "dist")));
 
 app.listen(port, () => {
   // eslint-disable-next-line
