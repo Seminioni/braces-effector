@@ -3,7 +3,7 @@ const expressStaticGzip = require("express-static-gzip");
 const path = require("path");
 const serveStatic = require("serve-static");
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const app = express();
 
 app.use("/", expressStaticGzip(path.join(`${__dirname}/dist/`), {
