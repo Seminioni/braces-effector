@@ -6,10 +6,14 @@ const serveStatic = require("serve-static");
 const port = process.env.PORT || 8080;
 const app = express();
 
-app.use(/.*/, expressStaticGzip(path.join(`${__dirname}/dist/`), {
+app.use("/", expressStaticGzip(path.join(`${__dirname}/dist/`), {
   enableBrotli: true,
   orderPreference: ["br"],
 }));
+
+app.get(/.*/, (_, res) => {
+  res.sendFile(`${__dirname}/dist/index.html`);
+});
 
 app.use(serveStatic(path.join(__dirname, "dist")));
 

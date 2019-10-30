@@ -11,7 +11,6 @@ const productionGzipExtensions = ["js", "css"];
 
 module.exports = {
   publicPath: "/",
-  assetsDir: "public",
   chainWebpack(config) {
     const EXCLUDED_RE = /\.pure\.svg$/;
 
@@ -70,7 +69,6 @@ module.exports = {
 
         postProcess(renderedRoute) {
           renderedRoute.route = renderedRoute.originalRoute;
-          renderedRoute.html = renderedRoute.html.split(/>[\s]+</gmi).join("><");
 
           if (renderedRoute.route.endsWith(".html")) {
             renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
@@ -93,7 +91,8 @@ module.exports = {
 
         renderer: new Renderer({
           maxConcurrentRoutes: 4,
-          headless: true,
+          injectProperty: "__PRERENDER_INJECTED",
+          headless: false,
           renderAfterDocumentEvent: "render-event",
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         }),

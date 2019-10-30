@@ -15,7 +15,7 @@ const router = new Router({
     ...dashboardRoutes,
   ],
   mode: "history",
-  base: process.env.DEPLOY_ENV !== "GH_PAGES" ? process.env.BASE_URL : "/braces-effector/",
+  base: process.env.BASE_URL,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
