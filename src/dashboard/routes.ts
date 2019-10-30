@@ -8,6 +8,7 @@ import { fxFetchFilters } from "./modules/filters";
 import { fxFetchImages } from "./modules/images";
 import { fxValidate, resetRoles } from "@/modules/auth";
 import { $roles } from "@/modules/auth/store";
+import { fxFetchCategories } from "./modules/categories";
 
 const children: R[] = [
   {
@@ -39,6 +40,12 @@ const children: R[] = [
     path: "categories",
     name: "DashboardCategoriesPage",
     component: lazy(import("./views/DashboardCategoriesPage.vue")),
+    meta: {
+      async beforeResolve(to, from, next) {
+        fxFetchCategories();
+        next();
+      },
+    },
   },
   {
     path: "filters",
