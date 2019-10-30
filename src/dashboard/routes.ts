@@ -37,6 +37,11 @@ const children: R[] = [
     },
   },
   {
+    path: "products",
+    name: "DashboardProductsPage",
+    component: lazy(import("./views/DashboardProductsPage.vue")),
+  },
+  {
     path: "categories",
     name: "DashboardCategoriesPage",
     component: lazy(import("./views/DashboardCategoriesPage.vue")),
