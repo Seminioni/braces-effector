@@ -1,6 +1,6 @@
 <script lang="ts">
 import createComponent from "@/core/component";
-import { $products, fxFetchProducts } from "@/dashboard/modules/products";
+import { $products, fxFetchProducts, fxRemoveProduct } from "@/dashboard/modules/products";
 
 import { BrLoader, BrButton } from "@/shared";
 
@@ -15,6 +15,10 @@ export default createComponent({
   components: {
     BrLoader,
     BrButton,
+  },
+
+  methods: {
+    fxRemoveProduct,
   },
 }, store);
 </script>
@@ -51,10 +55,11 @@ export default createComponent({
 
           <br-button
             type="text"
+            @click="fxRemoveProduct({
+              id: product.id,
+              etag: product.etag
+            })"
           >
-            <!-- @click="fxRemoveCategory({
-              id: category.id, etag: category.etag
-            })" -->
             Видалити
           </br-button>
         </li>

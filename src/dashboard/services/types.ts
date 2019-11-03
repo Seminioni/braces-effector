@@ -28,8 +28,11 @@ type FilterGroup = {
   url: string;
 };
 
+type SelectedFilter = { etag: string; id: string };
+
 type EditResponse = RemovePayload;
 
 export {
   RemovePayload, EditResponse, EditPayload, Filter, FilterGroup,
+  SelectedFilter,
 };

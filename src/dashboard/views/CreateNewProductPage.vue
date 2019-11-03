@@ -3,13 +3,17 @@ import createComponent from "@/core/component";
 
 import { $filters } from "@/dashboard/modules/filters";
 import { $categories } from "@/dashboard/modules/categories";
-import { updatedModel, $model, fxCreateProduct } from "@/dashboard/modules/products";
+import {
+  updatedModel, updateFilter, $model, fxCreateProduct, $selectedFilters,
+} from "@/dashboard/modules/products";
 import Editor from "@/dashboard/modules/products/components/Editor.vue";
 import { BrButton, BrInput } from "@/shared";
+import { SelectedFilter } from "../services/types";
 
 const store = {
   $filters,
   $categories,
+  $selectedFilters,
   $isLoading: fxCreateProduct.pending,
   $model,
 };
@@ -22,11 +26,25 @@ export default createComponent({
     Editor,
   },
 
+  data: () => ({
+    selectedFilters: [],
+  }),
+
+  watch: {
+    selectedFilters(value: SelectedFilter[]) {
+      this.updateFilter(value);
+    },
+  },
+
   methods: {
     updatedModel,
+    updateFilter,
     fxCreateProduct,
-    handleSubmit() {
-      this.fxCreateProduct(this.$model);
+    async handleSubmit() {
+      await this.fxCreateProduct(this.$model);
+      this.$router.push({
+        name: "DashboardProductsPage",
+      });
     },
     handleAddImage() {
       const images = [...this.$model.images];
@@ -59,7 +77,6 @@ export default createComponent({
 
 <template>
   <div class="row">
-    {{ $model }}
     <div class="col filter__control">
       <br-input
         :value="$model.title"
@@ -141,13 +158,14 @@ export default createComponent({
       </select>
 
       <select
+        v-model="selectedFilters"
         multiple
         style="height: 200px;"
       >
         <option
           v-for="item in $filters"
           :key="item.id"
-          :value="item.id"
+          :value="({ id: item.id, etag: item.etag })"
         >
           {{ item.title }}
         </option>
