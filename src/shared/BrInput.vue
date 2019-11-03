@@ -17,6 +17,12 @@ export default createComponent({
     },
   },
 
+  computed: {
+    tag() {
+      return this.type !== "textarea" ? "input" : "textarea";
+    },
+  },
+
   async mounted() {
     await this.$nextTick();
   },
@@ -30,13 +36,15 @@ export default createComponent({
         <slot />
       </span>
 
-      <input
+      <component
+        :is="tag"
         v-bind="$attrs"
         :type="type"
         :value="value"
         class="textfield__control"
+        :class="tag"
         @input="({ target }) => $emit('input', target.value)"
-      >
+      />
     </label>
 
     <div
@@ -53,6 +61,10 @@ export default createComponent({
 <style lang="scss" scoped>
 .textfield {
   margin-bottom: 10px;
+
+  .textarea {
+    min-height: 150px;
+  }
 }
 
 .textfield__label {

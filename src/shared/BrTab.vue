@@ -69,7 +69,6 @@ export default createComponent({
       }
 
       this.$emit("input", currentTab);
-      console.log(currentTab);
     },
   },
 });
@@ -89,21 +88,23 @@ export default createComponent({
           :class="{ active: type !== 'router' ? item === value : item.to === $route.path }"
           @click="handleClick(item)"
         >
-          <br-button
-            v-if="type !== 'router'"
-            class="tab__button"
-            type="text"
-          >
-            {{ item }}
-          </br-button>
-          <br-button
-            v-else
-            class="tab__button"
-            type="text"
-            :to="item.to"
-          >
-            {{ item.label }}
-          </br-button>
+          <template v-if="!item.hidden">
+            <br-button
+              v-if="type !== 'router'"
+              class="tab__button"
+              type="text"
+            >
+              {{ item }}
+            </br-button>
+            <br-button
+              v-else
+              class="tab__button"
+              type="text"
+              :to="item.to"
+            >
+              {{ item.label }}
+            </br-button>
+          </template>
         </li>
       </ul>
 

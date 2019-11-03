@@ -9,6 +9,7 @@ import { fxFetchImages } from "./modules/images";
 import { fxValidate, resetRoles } from "@/modules/auth";
 import { $roles } from "@/modules/auth/store";
 import { fxFetchCategories } from "./modules/categories";
+import { fxFetchProducts } from "./modules/products";
 
 const children: R[] = [
   {
@@ -40,6 +41,24 @@ const children: R[] = [
     path: "products",
     name: "DashboardProductsPage",
     component: lazy(import("./views/DashboardProductsPage.vue")),
+    meta: {
+      beforeResolve(to, from, next) {
+        fxFetchProducts();
+        next();
+      },
+    },
+  },
+  {
+    path: "products/new",
+    name: "CreateNewProductPage",
+    component: lazy(import("./views/CreateNewProductPage.vue")),
+    meta: {
+      async beforeResolve(to, from, next) {
+        await fxFetchCategories();
+        await fxFetchFilters();
+        next();
+      },
+    },
   },
   {
     path: "categories",

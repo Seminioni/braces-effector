@@ -8,6 +8,7 @@ const pages = [
   { label: "Зображення", to: "/dashboard/images" },
   { label: "Категорії", to: "/dashboard/categories" },
   { label: "Товари", to: "/dashboard/products" },
+  { label: "Новий продукт", to: "/dashboard/products/new", hidden: true },
 ];
 
 export default createComponent({
