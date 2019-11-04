@@ -1,10 +1,13 @@
 <script lang="ts">
+import { PropType } from "vue";
+import { Product, ProductModel } from "../services/products.service";
 import createComponent from "@/core/component";
 
 import { $filters } from "@/dashboard/modules/filters";
 import { $categories } from "@/dashboard/modules/categories";
 import {
   updatedModel, updateFilter, $model, fxCreateProduct, $selectedFilters,
+  fxFetchFiltersByProduct, reset, fxEditProduct,
 } from "@/dashboard/modules/products";
 import Editor from "@/dashboard/modules/products/components/Editor.vue";
 import { BrButton, BrInput } from "@/shared";
@@ -26,22 +29,68 @@ export default createComponent({
     Editor,
   },
 
+  props: {
+    id: {
+      type: String,
+      default: null,
+    },
+    product: {
+      type: Object as PropType<Product>,
+      default: null,
+    },
+  },
+
   data: () => ({
-    selectedFilters: [],
+    selectedFilters: [] as SelectedFilter[],
   }),
+
+  async created() {
+    await this.$nextTick();
+    if (this.product) {
+      await this.fxFetchFiltersByProduct(this.product.id);
+
+      this.selectedFilters = [...this.$selectedFilters];
+
+      Object.entries(this.product)
+        .forEach(([key, value]) => {
+          this.updatedModel({
+            key: key as keyof ProductModel,
+            value,
+          });
+        });
+    }
+  },
+
+  destroyed() {
+    this.reset();
+  },
 
   watch: {
     selectedFilters(value: SelectedFilter[]) {
-      this.updateFilter(value);
+      if (!this.product.id) {
+        this.updateFilter(value);
+      }
     },
   },
 
   methods: {
+    reset,
+    fxFetchFiltersByProduct,
+    fxEditProduct,
     updatedModel,
     updateFilter,
     fxCreateProduct,
     async handleSubmit() {
-      await this.fxCreateProduct(this.$model);
+      if (!this.product) {
+        await this.fxCreateProduct(this.$model);
+      } else {
+        await this.fxEditProduct({
+          model: this.$model,
+          etag: this.product.etag,
+          id: this.product.id,
+          filters: this.selectedFilters,
+        });
+      }
       this.$router.push({
         name: "DashboardProductsPage",
       });
@@ -91,7 +140,7 @@ export default createComponent({
     <div class="col filter__control">
       <br-input
         type="number"
-        :value="$model.price"
+        :value="'' + $model.price"
         @input="updatedModel({
           key: 'price',
           value: $event
@@ -195,7 +244,10 @@ export default createComponent({
       Додати зображення
     </br-button>
     <div class="col">
-      <Editor v-model="$model.description" />
+      <Editor
+        v-if="!id || id && $model.description"
+        v-model="$model.description"
+      />
     </div>
     <div class="col">
       <br-button

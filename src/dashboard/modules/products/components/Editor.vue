@@ -255,7 +255,6 @@ export default Vue.extend({
   },
 
   data(vm: any) {
-    console.log(vm);
     return {
       editor: new Editor({
         extensions: [

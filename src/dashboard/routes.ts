@@ -9,7 +9,7 @@ import { fxFetchImages } from "./modules/images";
 import { fxValidate, resetRoles } from "@/modules/auth";
 import { $roles } from "@/modules/auth/store";
 import { fxFetchCategories } from "./modules/categories";
-import { fxFetchProducts } from "./modules/products";
+import { fxFetchProducts, $products } from "./modules/products";
 
 const children: R[] = [
   {
@@ -52,6 +52,22 @@ const children: R[] = [
     path: "products/new",
     name: "CreateNewProductPage",
     component: lazy(import("./views/CreateNewProductPage.vue")),
+    meta: {
+      async beforeResolve(to, from, next) {
+        await fxFetchCategories();
+        await fxFetchFilters();
+        next();
+      },
+    },
+  },
+  {
+    path: "products/:id/edit",
+    name: "EditProductPage",
+    component: lazy(import("./views/CreateNewProductPage.vue")),
+    props: ({ params }) => ({
+      id: params.id,
+      product: $products.getState().find(product => product.id === params.id),
+    }),
     meta: {
       async beforeResolve(to, from, next) {
         await fxFetchCategories();

@@ -94,7 +94,7 @@ export default createComponent({
       <br-button
         type="circle"
         class="pagination__btn pagination__btn--next"
-        :disabled="(offset * limit) >= total"
+        :disabled="(offset + limit) >= total"
         @click="handleOffset(offset + limit)"
       >
         <arrow-icon />

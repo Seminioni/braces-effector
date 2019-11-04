@@ -22,7 +22,7 @@ export default createComponent({
       default: "tabs",
     },
     navItems: {
-      type: Array as PropType<{ label: string; to: string }[]>,
+      type: Array as PropType<{ label: string; to: string, hidden?: boolean }[]>,
       default: () => [],
     },
   },
@@ -36,7 +36,7 @@ export default createComponent({
       return this.type === "tabs" ? this.navs : this.navItems;
     },
     selected() {
-      return this.navItems.find(i => i.to === this.$route.path);
+      return this.navItems.find(i => (i.to === this.$route.path) && !i.hidden);
     },
   },
 
@@ -110,6 +110,7 @@ export default createComponent({
 
       <div class="tab__select-wrap">
         <select
+          v-if="selected"
           :value="value"
           class="tab__select"
           @change="({ target }) => handleChange(target.value)"

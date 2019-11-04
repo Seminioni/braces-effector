@@ -48,8 +48,8 @@ export default createComponent({
           </div>
           <br-button
             type="text"
+            :to="{ name: 'EditProductPage', params: { id: product.id } }"
           >
-            <!-- @click="selectedCategory(category)" -->
             Редагувати
           </br-button>
 
