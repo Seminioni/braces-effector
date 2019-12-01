@@ -45,59 +45,5 @@ module.exports = {
 
   configureWebpack: {
     name: "Braces",
-
-    plugins: process.env.NODE_ENV !== "production" ? [] : [
-      new CompressionWebpackPlugin({
-        compressionOptions: {
-          asset: "[path].gz[query]",
-        },
-        algorithm: "gzip",
-        test: new RegExp(`\\.(${productionGzipExtensions.join("|")})$`),
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
-      new BrotliPlugin({
-        asset: "[path].br[query]",
-        test: new RegExp(`\\.(${productionGzipExtensions.join("|")})$`),
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
-      new PrerenderSPAPlugin({
-        staticDir: path.join(__dirname, "dist"),
-        indexPath: path.join(__dirname, "dist", "index.html"),
-        routes: ["/", "/help", "/help/delivery", "/help/payment"],
-
-        postProcess(renderedRoute) {
-          renderedRoute.route = renderedRoute.originalRoute;
-
-          if (renderedRoute.route.endsWith(".html")) {
-            renderedRoute.outputPath = path.join(__dirname, "dist", renderedRoute.route);
-          }
-
-          return renderedRoute;
-        },
-
-        minify: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          decodeEntities: true,
-          keepClosingSlash: true,
-          sortAttributes: true,
-        },
-
-        server: {
-          port: 8001,
-        },
-
-        renderer: new Renderer({
-          maxConcurrentRoutes: 4,
-          injectProperty: "__PRERENDER_INJECTED",
-          headless: true,
-          renderAfterDocumentEvent: "render-event",
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        }),
-      }),
-
-    ],
   },
 };

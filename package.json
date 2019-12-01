@@ -22,7 +22,6 @@
     "lodash.isequal": "^4.5.0",
     "lodash.orderby": "^4.6.0",
     "modern-css-reset": "^1.0.4",
-    "prerender-spa-plugin": "^3.4.0",
     "register-service-worker": "^1.6.2",
     "serve-static": "^1.14.1",
     "tiptap": "^1.26.4",
