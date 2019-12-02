@@ -1,11 +1,5 @@
 
 const path = require("path");
-const CompressionWebpackPlugin = require("compression-webpack-plugin");
-const BrotliPlugin = require("brotli-webpack-plugin");
-const PrerenderSPAPlugin = require("prerender-spa-plugin");
-
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer;
-
 
 const productionGzipExtensions = ["js", "css"];
 
